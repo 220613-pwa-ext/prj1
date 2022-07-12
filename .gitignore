@@ -1,3 +1,5 @@
 /backend/venv
 /backend/.idea
 .env
+**/__init__.py
+
