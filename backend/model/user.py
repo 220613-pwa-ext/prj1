@@ -1,7 +1,7 @@
 from flask_login import UserMixin
 
 
-class Customer(UserMixin):
+class User(UserMixin):
     def __init__(self,
                  user_id,
                  username,
