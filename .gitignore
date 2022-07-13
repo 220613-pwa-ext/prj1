@@ -2,4 +2,5 @@
 /backend/.idea
 .env
 **/__init__.py
+backend/**/__pycache__
 

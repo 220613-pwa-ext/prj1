@@ -91,7 +91,7 @@ class Reimbursement:
             'status_id': self.get_status_id(),
             'type_id': self.get_type_id(),
             'description': self.get_description(),
-            'receipt': self.get_receipt(),
+            'receipt': self.get_receipt().decode(),
             'author_id': self.get_author_id(),
             'resolver_id': self.get_resolver_id()
         }
