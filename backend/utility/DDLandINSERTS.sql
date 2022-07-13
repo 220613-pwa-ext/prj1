@@ -1,7 +1,9 @@
+DROP TABLE IF EXISTS ers_reimbursements;
 DROP TABLE IF EXISTS ers_users;
+DROP TABLE IF EXISTS ers_roles;
 DROP TABLE IF EXISTS ers_status_types;
 DROP TABLE IF EXISTS ers_reimbursement_types;
-DROP TABLE IF EXISTS ers_reimbursement;
+
 --CREATE EXTENSION pgcrypto;
 
 CREATE TABLE ers_roles (
@@ -36,13 +38,13 @@ CREATE TABLE ers_reimbursements (
 	id SERIAL PRIMARY KEY,
 	amount NUMERIC NOT NULL,
 	submitted TIMESTAMP NOT NULL,
-	resolved TIMESTAMP NOT NULL,
+	resolved TIMESTAMP,
 	status_id INT NOT NULL,
 	type_id INT NOT NULL,
 	description VARCHAR(50) NOT NULL,
 	receipt BYTEA NOT NULL,
 	author_id INT NOT NULL,
-	resolver_id INT NOT NULL,
+	resolver_id INT ,
 	CONSTRAINT fk_author_id
   		FOREIGN KEY (author_id) REFERENCES "ers_users" (id),
   	CONSTRAINT fk_resolver_id
@@ -55,16 +57,39 @@ CREATE TABLE ers_reimbursements (
 );
 
 INSERT INTO ers_roles (role_name) VALUES ('finance_manager'), ('employee');
+SELECT * FROM ers_roles;
 
 INSERT INTO ers_users (username, pass, first_name, last_name, email, user_role_id)
-	VALUES 	('JohnD80','$2b$12$k9bUr82TcF2uT27PCUs4Z.F/yYB.beSzSiaH4I0OUI0MhloqyGXf2','John','Doe','jd@a.ca',2);
---			('Jane','Doe','1981-01-01','2003-01-02','j@a.ca', 'M2J 1M5', '551', '555-555-5001'),
---			('Johny','Doe','2000-01-01','2020-01-03','jhy@a.ca', 'M2J 1M5', '553', '555-555-5003'),
---			('John1','Doe1','1980-01-01','2000-01-01','jd@a.ca', 'M2J 1M5', '554', '555-555-5004'),
---			('Jane1','Doe1','1981-01-01','2003-01-02','j@a.ca', 'M2J 1M5', '555', '555-555-5005'),
---			('Johny1','Doe1','2000-01-01','2020-01-03','jhy@a.ca', 'M2J 1M5', '556', '555-555-5006'),
---			('John2','Doe','1980-01-01','2000-01-01','jd@a.ca', 'M2J 1M5', '557', '555-555-5007'),
---			('Jane2','Doe','1981-01-01','2003-01-02','j@a.ca', 'M2J 1M5', '558', '555-555-5008'),
---			('Johny2','Doe','2000-01-01','2020-01-03','jhy@a.ca', 'M2J 1M5', '559', '555-555-5009');
+	VALUES 	('JohnD80','$2b$12$k9bUr82TcF2uT27PCUs4Z.F/yYB.beSzSiaH4I0OUI0MhloqyGXf2','John','Doe','jd@a.ca',2),
+			('JaneD80','$2b$12$k9bUr82TcF2uT27PCUs4Z.F/yYB.beSzSiaH4I0OUI0MhloqyGXf2','Jane','Doe','jd@a.ca',2),
+			('JonD80','$2b$12$k9bUr82TcF2uT27PCUs4Z.F/yYB.beSzSiaH4I0OUI0MhloqyGXf2','Johny','Doe','jd@a.ca',2),
+			('valiv9','$2b$12$k9bUr82TcF2uT27PCUs4Z.F/yYB.beSzSiaH4I0OUI0MhloqyGXf2','Valentin','Vlad','jd@a.ca',1),
+			('willrock22','$2b$12$k9bUr82TcF2uT27PCUs4Z.F/yYB.beSzSiaH4I0OUI0MhloqyGXf2','Cam','Coder','jd@a.ca',1);
 		
 SELECT * FROM ers_users;
+
+INSERT INTO ers_status_types (status_name) VALUES ('pending'), ('approved'),('denied');
+SELECT * FROM ers_status_types;
+
+INSERT INTO ers_reimbursement_types (reimb_name) VALUES ('Lodging'), ('Travel'), ('Food'),('Other');
+SELECT * FROM ers_reimbursement_types;
+
+INSERT INTO ers_reimbursements (amount, submitted, status_id, type_id, description, receipt, author_id) 
+	VALUES	(500, Now(), 1, 1, 'Staying at hotel due to extended business meeting', bytea(''), 1),
+			(600, Now(), 1, 2, 'Travel to Vancouver', bytea(''), 1),
+			(700, Now(), 1, 3, 'Eat crackers', bytea(''), 1),
+			(800, Now(), 1, 4, 'Make peace with spouse after late business meeting', bytea(''), 1),
+			(900, Now(), 1, 1, 'Staying at hotel due to extended business meeting', bytea(''), 2),
+			(1000, Now(), 1, 2, 'Travel to Vancouver', bytea(''), 2),
+			(1100, Now(), 1, 3, 'Eat crackers', bytea(''), 2),
+			(1200, Now(), 1, 4, 'Make peace with spouse after late business meeting', bytea(''), 2),
+			(400, Now(), 1, 1, 'Staying at hotel due to extended business meeting', bytea(''), 3),
+			(300, Now(), 1, 2, 'Travel to Vancouver', bytea(''), 3),
+			(200, Now(), 1, 3, 'Eat crackers', bytea(''), 3),
+			(100, Now(), 1, 1, 'Staying at hotel due to extended business meeting', bytea(''), 4),
+			(100, Now(), 1, 1, 'Staying at hotel due to extended business meeting', bytea(''), 4),
+			(500, Now(), 1, 2, 'Travel to Vancouver', bytea(''), 5),
+			(500, Now(), 1, 1, 'Staying at hotel due to extended business meeting', bytea(''), 5),
+			(500, Now(), 1, 3, 'Eat crackers', bytea(''), 5);
+
+SELECT * FROM ers_reimbursements ;
