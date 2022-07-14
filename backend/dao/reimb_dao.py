@@ -2,7 +2,7 @@ from model.reimbursement import Reimbursement
 from utility.db_connection import pool
 
 
-class UserDao:
+class ReimbDao:
 
     def get_all_reimb_by_employee_id(self, emp_id):
 
