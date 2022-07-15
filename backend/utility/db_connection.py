@@ -5,10 +5,10 @@ config = dotenv_values(".env")
 
 pool = ConnectionPool(
     'postgresql://' +
-    config['user'] + ':'
-    + config['password'] + '@' +
-    config['host'] + ':' +
-    config['port'] + '/' +
-    config['dbname']
+    config.get('user') + ':'
+    + config.get('password') + '@' +
+    config.get('host') + ':' +
+    config.get('port') + '/' +
+    config.get('dbname')
 )
 

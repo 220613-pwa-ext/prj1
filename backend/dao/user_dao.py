@@ -21,3 +21,13 @@ class UserDao:
                                                      role_id))
 
                 return my_list_of_user_objs
+    def get_user_by_username(self, username):
+        with pool.connection() as conn:
+            with conn.cursor() as cur:
+                cur.execute("SELECT * FROM ers_users WHERE username = %s;", (username,))
+                user = cur.fetchone()
+                if user:
+                    return User(user[0], user[1], user[2], user[3], user[4], user[5], user[6])
+                else:
+                    return None
+
