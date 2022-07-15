@@ -1,7 +1,4 @@
-from flask_login import UserMixin
-
-
-class User(UserMixin):
+class User:
     def __init__(self,
                  user_id,
                  username,
@@ -71,3 +68,6 @@ class User(UserMixin):
             'email': self.get_email(),
             'user_role': self.get_user_role()
         }
+
+    def __str__(self):
+        return "User(id='%s')" % self.get_user_id()

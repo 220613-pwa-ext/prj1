@@ -6,4 +6,4 @@ def hash_registering_password(passwd):
 
 
 def validate_password(passwd, hash):
-    return bcrypt.checkpw(passwd, hash.encode('utf-8'))
+    return bcrypt.checkpw(passwd.encode('utf-8'), hash.encode('utf-8'))

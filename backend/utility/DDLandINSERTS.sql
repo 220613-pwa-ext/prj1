@@ -56,14 +56,14 @@ CREATE TABLE ers_reimbursements (
 
 );
 
-INSERT INTO ers_roles (role_name) VALUES ('finance_manager'), ('employee');
+INSERT INTO ers_roles (role_name) VALUES ('finance_manager'), ('employee'), ('IT_admin');
 SELECT * FROM ers_roles;
 
 INSERT INTO ers_users (username, pass, first_name, last_name, email, user_role_id)
 	VALUES 	('JohnD80','$2b$12$k9bUr82TcF2uT27PCUs4Z.F/yYB.beSzSiaH4I0OUI0MhloqyGXf2','John','Doe','jd@a.ca',2),
 			('JaneD80','$2b$12$k9bUr82TcF2uT27PCUs4Z.F/yYB.beSzSiaH4I0OUI0MhloqyGXf2','Jane','Doe','jd@a.ca',2),
 			('JonD80','$2b$12$k9bUr82TcF2uT27PCUs4Z.F/yYB.beSzSiaH4I0OUI0MhloqyGXf2','Johny','Doe','jd@a.ca',2),
-			('valiv9','$2b$12$k9bUr82TcF2uT27PCUs4Z.F/yYB.beSzSiaH4I0OUI0MhloqyGXf2','Valentin','Vlad','jd@a.ca',1),
+			('valiv9','$2b$12$k9bUr82TcF2uT27PCUs4Z.F/yYB.beSzSiaH4I0OUI0MhloqyGXf2','Valentin','Vlad','vv@a.ca',3),
 			('willrock22','$2b$12$k9bUr82TcF2uT27PCUs4Z.F/yYB.beSzSiaH4I0OUI0MhloqyGXf2','Cam','Coder','jd@a.ca',1);
 		
 SELECT * FROM ers_users;
