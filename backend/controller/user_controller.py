@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify
-from exception.UserNotFound import UserNotFound
+from exception.Forbidden import Forbidden
 from service.user_service import UserService
 from flask_jwt_extended import get_jwt_identity, jwt_required
 
@@ -9,9 +9,10 @@ user_service = UserService()
 @uc.route('/users')
 @jwt_required()
 def get_all_users():
+    id = get_jwt_identity()
     try:
-        return {"users": user_service.get_all_users(), "requester": get_jwt_identity()}, 200
-    except UserNotFound as e:
+        return {"users": user_service.get_all_users(id.get('role')), "requester": id}, 200
+    except Forbidden as e:
         return {
                "message": str(e)
-           }, 404
+           }, 403
