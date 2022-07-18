@@ -1,6 +1,7 @@
 // let usernameInput = document.getElementById('username');
 // let passwordInput = document.getElementById('password');
 let loginStatusButton = document.getElementById('login-status');
+let greeting = document.getElementById('welcome');
 
 document.addEventListener("DOMContentLoaded", async () => {
   try {
@@ -9,13 +10,16 @@ document.addEventListener("DOMContentLoaded", async () => {
       'method': 'GET',
       'headers': {
         'Content-Type': 'application/json'
-        // 'Access-Control-Allow-Credentials': 'true'
       }
     })
 
     let data = await res.json();
     console.log(data)
-    // loginStatusButton.innerText = data.reimbursements.author
+    if (data) {
+      greeting.innerText = "Welcome back, " + data.user + "!"
+      loginStatusButton.innerText = "Logout"
+      loginStatusButton.setAttribute('href', '/logout.html');
+    }
     addReimbursementsToTable(data);
   } catch (err) {
     console.log(err);
