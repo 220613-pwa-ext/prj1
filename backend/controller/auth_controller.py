@@ -14,7 +14,7 @@ def login():
     try:
         user = auth_service.login(username, password)
         response = jsonify({"msg": "login successful"})
-        response.headers['Access-Control-Allow-Credentials'] = 'true'
+        # response.headers['Access-Control-Allow-Credentials'] = ''
         access_token = create_access_token(identity={"user_id": user.get_user_id(),
                                                      "username": user.get_username(),
                                                      "first_name": user.get_first_name(),

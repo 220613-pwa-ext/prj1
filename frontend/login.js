@@ -6,7 +6,8 @@ let loginSubmitButton = document.getElementById('login-submit-btn');
 loginSubmitButton.addEventListener('click', async () => {
   console.log("usr,pass", usernameInput.value, passwordInput.value);
   let res = await fetch('http://127.0.0.1:8080/login', {
-
+    'credentials': 'same-origin',
+    'credentials': 'include',
     'method': 'POST',
     'headers': {
       'Content-Type': 'application/json'

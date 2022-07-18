@@ -11,7 +11,9 @@ reimb_service = ReimbService()
 def get_reimbursements():
     req_id = get_jwt_identity()
     try:
-        return {"reimbursements": reimb_service.get_reimbursements(req_id), "user" : req_id.get('first_name')}, 200
+        return {"reimbursements": reimb_service.get_reimbursements(req_id),
+                "user" : req_id.get('first_name'),
+                "role" : req_id.get('user_role')}, 200
     except Unauthorized as e:
         return {
                "message": str(e)

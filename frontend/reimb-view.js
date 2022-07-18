@@ -1,21 +1,23 @@
-// let usernameInput = document.getElementById('username');
-// let passwordInput = document.getElementById('password');
+
+let welcome = document.getElementById('welcome');
 let loginStatusButton = document.getElementById('login-status');
 
 document.addEventListener("DOMContentLoaded", async () => {
   try {
     let res = await fetch('http://127.0.0.1:8080/reimbursements', {
+      'credentials': 'same-origin',
       'credentials': 'include',
       'method': 'GET',
       'headers': {
-        'Content-Type': 'application/json'
-        // 'Access-Control-Allow-Credentials': 'true'
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Credentials': 'true'
       }
     })
 
     let data = await res.json();
     console.log(data)
-    // loginStatusButton.innerText = data.reimbursements.author
+    loginStatusButton.innerText = "Logout"
+    welcome.innerText = "Welcome back, " + data.user + "!"
     addReimbursementsToTable(data);
   } catch (err) {
     console.log(err);
