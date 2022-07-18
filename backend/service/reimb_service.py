@@ -17,5 +17,5 @@ class ReimbService:
             print(user.get_user_role())
             return self.reimb_dao.get_all_reimb(req_id)
         else:
-            return list(map(lambda x: x.to_dict(), self.reimb_dao.get_reimb_author_id(req_id)))
+            return self.reimb_dao.get_reimb_author_id(req_id)
 

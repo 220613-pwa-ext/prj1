@@ -6,6 +6,7 @@ let loginSubmitButton = document.getElementById('login-submit-btn');
 loginSubmitButton.addEventListener('click', async () => {
   console.log("usr,pass", usernameInput.value, passwordInput.value);
   let res = await fetch('http://127.0.0.1:8080/login', {
+
     'method': 'POST',
     'headers': {
       'Content-Type': 'application/json'
@@ -16,8 +17,7 @@ loginSubmitButton.addEventListener('click', async () => {
     })
   })
   if (res.status == 200) {
-
-    window.location.href = '/reimb-view.html'
+    window.location.href = '/reimb-view.html';
 
   } else if (res.status == 401) {
     let data = await res.json();

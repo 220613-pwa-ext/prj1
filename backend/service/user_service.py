@@ -6,7 +6,9 @@ class UserService:
     def __init__(self):
         self.user_dao = UserDao()
 
-    def get_all_users(self, role):
+    def get_all_users(self, user):
+        print(user)
+        role = user.get('user_role')
         if role == 1 or role == 2:
             raise Forbidden('Forbidden resource access request!')
         elif role == 3:

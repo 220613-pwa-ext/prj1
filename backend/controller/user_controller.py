@@ -9,9 +9,9 @@ user_service = UserService()
 @uc.route('/users')
 @jwt_required()
 def get_all_users():
-    id = get_jwt_identity()
+    user = get_jwt_identity()
     try:
-        return {"users": user_service.get_all_users(id.get('role')), "requester": id}, 200
+        return {"users": user_service.get_all_users(user), "first_name": user.get('first_name')}, 200
     except Forbidden as e:
         return {
                "message": str(e)

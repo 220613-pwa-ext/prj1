@@ -1,29 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
-  <script defer src="/login.js"></script>
-</head>
-<body>
-  <nav class="navbar navbar-expand-lg bg-light">
-    <div class="container-fluid">
-      <a id="header" class="navbar-brand" href="#">???</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <nav class="navbar bg-light">
-        <div class="container-fluid">
-          <span id="welcome" class="navbar-brand">???</span>
-          <a id="login-status" class="navbar-brand" href="/login.html">???</a>
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reimbursements</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <script defer type="text/javascript" src="/reimb-view.js"></script>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg bg-light">
+      <div class="container-fluid">
+        <a id="header" class="navbar-brand" href="#">???</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <nav class="navbar bg-light">
+          <div class="container-fluid">
+            <span id="welcome" class="navbar-brand">???</span>
+            <a id="login-status" class="navbar-brand" href="#">users</a>
+          </div>
+        </nav>  
         </div>
-      </nav>  
       </div>
-    </div>
-  </nav>
-
-</body>
+    </nav>
+    <section>
+      <table id="reimb-tbl" class="table">
+        <thead>
+          <tr>
+            <th scope="col">Reimbursement ID</th>
+            <th scope="col">Amount</th>
+            <th scope="col">Created ON</th>
+            <th scope="col">Status</th>
+            <th scope="col">Type</th>
+            <th scope="col">Description</th>
+            <th scope="col">Receipt</th>
+            <th scope="col">Author</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row"></th>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          
+        </tbody>
+      </table>
+    </section>
+  </body>
 </html>
