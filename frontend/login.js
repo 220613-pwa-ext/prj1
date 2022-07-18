@@ -3,8 +3,9 @@ let passwordInput = document.getElementById('password');
 let loginSubmitButton = document.getElementById('login-submit-btn');
 
 
-loginSubmitButton.addEventListener('click', async () => {
+loginSubmitButton.addEventListener('click', async (e) => {
   console.log("usr,pass", usernameInput.value, passwordInput.value);
+  e.preventDefault();
   let res = await fetch('http://127.0.0.1:8080/login', {
     'credentials': 'same-origin',
     'credentials': 'include',
