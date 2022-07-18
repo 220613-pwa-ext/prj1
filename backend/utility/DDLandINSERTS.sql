@@ -93,3 +93,9 @@ INSERT INTO ers_reimbursements (amount, submitted, status_id, type_id, descripti
 			(500, Now(), 1, 3, 'Eat crackers', bytea(''), 5);
 
 SELECT * FROM ers_reimbursements ;
+SELECT r.id, r.amount, r.submitted, est.status_name, ert.reimb_name, r.description, r.receipt, CONCAT(eu.first_name , ' ', eu.last_name) AS employee_name 
+FROM ers_reimbursements r 
+JOIN ers_status_types est ON r.status_id = est.status_name 
+JOIN ers_reimbursement_types ert ON r.type_id = ert.reimb_name
+JOIN ers_users eu ON r.author_id = eu.id
+WHERE r.author_id <> 5;

@@ -1,15 +1,18 @@
 from flask import Blueprint, request
-from exception.UserNotFound import UserNotFound
+from exception.Unauthorized import Unauthorized
 from service.reimb_service import ReimbService
+from flask_jwt_extended import get_jwt_identity, jwt_required
 
 rc = Blueprint('reimb_controller', __name__)
 reimb_service = ReimbService()
 
-@rc.route('/users/<user_id>/reimbursements')
-def get_all_reimb_by_user_id(user_id):
+@rc.route('/reimbursements')
+@jwt_required()
+def get_reimbursements():
+    req_id = get_jwt_identity()
     try:
-        return {"reimbursements": reimb_service.get_all_reimbursements_by_user_id(user_id)}, 200
-    except UserNotFound as e:
+        return {"reimbursements": reimb_service.get_reimbursements(req_id), "user" : req_id.get('first_name')}, 200
+    except Unauthorized as e:
         return {
                "message": str(e)
-           }, 404
+           }, 401
