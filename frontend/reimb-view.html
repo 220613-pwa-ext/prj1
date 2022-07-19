@@ -5,15 +5,17 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reimbursements</title>
+    <link rel="stylesheet" href="/main.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
     <script defer type="text/javascript" src="/reimb-view.js"></script>
   </head>
   <body>
-    <nav class="navbar navbar-expand-lg bg-light">
+    <nav id="nav" class="navbar navbar-expand-lg bg-light">
       <div class="container-fluid">
-        <a id="header1" class="navbar-brand" href="#">Reimbursement Management System</a>
+        <div id="header1" class="navbar-brand" >ERS</div>
+        
         <a id="header2" class="navbar-brand" href="/new-reimb.html">Add Reimbursement</a>
-        <a id="header3" class="navbar-brand" href="/handle-reimb.html" hidden>Deny or Aprove Reimbursements</a>
+        <a id="header3" class="navbar-brand" href="/handle-reimb.html" hidden>Deny or Approve Reimbursements</a>
 
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
@@ -27,6 +29,20 @@
         </div>
       </div>
     </nav>
+    <div id="fil" class="container-fluid dropdown-center">
+      <p>
+        This system view allows you to filter by reimbursement status your requests history.
+      </p>
+      
+        <select name="status" id="filter">
+          <option class="dropdown-item" value="0">Any Status</option>
+          <option class="dropdown-item" value="1">Pending</option>
+          <option class="dropdown-item" value="2">Approved</option>
+          <option class="dropdown-item" value="3">Denied</option>
+        </select>
+        
+
+    </div>
     <section>
       <table id="reimb-tbl" class="table">
         <thead>
@@ -41,7 +57,7 @@
             <th scope="col">Author</th>
           </tr>
         </thead>
-        <tbody id="reimb-tbl-body">
+        <tbody id="reimb-tbl-tbody">
                     
         </tbody>
       </table>

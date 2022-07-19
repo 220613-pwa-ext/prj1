@@ -2,12 +2,14 @@
 let welcome = document.getElementById('welcome');
 let loginStatusButton = document.getElementById('login-status');
 let header3 = document.getElementById('header3');
-let tbody = document.getElementById('reimb-tbl-body');
+let tbody = document.getElementById('reimb-tbl-tbody');
 
+let filter = document.getElementById('filter');
+let url = "http://127.0.0.1:8080/reimbursements"
 
 document.addEventListener("DOMContentLoaded", async () => {
   try {
-    let res = await fetch('http://127.0.0.1:8080/reimbursements', {
+    let res = await fetch(url, {
       'credentials': 'same-origin',
       'credentials': 'include',
       'method': 'GET',
@@ -29,11 +31,35 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 });
 
+filter.addEventListener('change', async (e) => {
+  console.log(filter.value);
+
+  while (tbody.hasChildNodes()) {
+    tbody.removeChild(tbody.lastChild);
+  }
+  try {
+    let res = await fetch(url + "?status=" + filter.value, {
+      'credentials': 'same-origin',
+      'credentials': 'include',
+      'method': 'GET',
+      'headers': {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Credentials': 'true'
+      }
+    })
+    let data = await res.json();
+    console.log(data);
+    addReimbursementsToTable(data);
+  } catch (err) {
+    console.log(err);
+  }
+
+  // window.location.reload();
+});
 
 
 function addReimbursementsToTable(data) {
-
-  let reimbursementTbodyElement = document.querySelector('#reimb-tbl');
+  console.log("datta passed to table", data)
   for (reimb of data.reimbursements) {
     let row = document.createElement('tr');
 
@@ -65,6 +91,6 @@ function addReimbursementsToTable(data) {
     row.appendChild(imageCell);
     row.appendChild(authorCell);
 
-    reimbursementTbodyElement.appendChild(row);
+    tbody.appendChild(row);
   }
 }
