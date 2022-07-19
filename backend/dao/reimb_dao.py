@@ -33,7 +33,7 @@ class ReimbDao:
                             "JOIN ers_status_types est ON r.status_id = est.id "
                             "JOIN ers_reimbursement_types ert ON r.type_id = ert.id "
                             "JOIN ers_users eu ON r.author_id = eu.id "
-                            "WHERE r.author_id = %s AND r.status_id = 1", (req_id.get("user_id"),))
+                            "WHERE r.author_id = %s", (req_id.get("user_id"),))
                 my_list_of_reimbursement_dicts = []
                 for reimb in cur:
                     r_dict = {"r_id": reimb[0], "amount": reimb[1], "submitted": reimb[2], "status_name": reimb[3],

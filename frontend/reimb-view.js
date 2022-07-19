@@ -5,7 +5,7 @@ let loginStatusButton = document.getElementById('login-status');
 document.addEventListener("DOMContentLoaded", async () => {
   try {
     let res = await fetch('http://127.0.0.1:8080/reimbursements', {
-      'credentials': 'same-origin',
+      // 'credentials': 'same-origin',
       'credentials': 'include',
       'method': 'GET',
       'headers': {
@@ -15,7 +15,12 @@ document.addEventListener("DOMContentLoaded", async () => {
     })
 
     let data = await res.json();
-    console.log(data)
+    console.log(data);
+    if (data.role == 1) {
+      let header3 = document.getElementById('header3');
+      header3.removeAttribute('hidden');
+    }
+
     loginStatusButton.innerText = "Logout"
     welcome.innerText = "Welcome back, " + data.user + "!"
     addReimbursementsToTable(data);
@@ -25,40 +30,44 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 });
 
+
+
 function addReimbursementsToTable(data) {
+
   let reimbursementTbodyElement = document.querySelector('#reimb-tbl');
+  for (reimb of data.reimbursements) {
+    let row = document.createElement('tr');
 
-  let row = document.createElement('tr');
+    let idCell = document.createElement('td');
+    idCell.innerHTML = reimb.r_id;
+    let amountCell = document.createElement('td');
+    amountCell.innerHTML = reimb.amount;
+    let submittedCell = document.createElement('td');
+    submittedCell.innerHTML = reimb.submitted;
+    let status_nameCell = document.createElement('td');
+    status_nameCell.innerHTML = reimb.status_name;
+    let r_nameCell = document.createElement('td');
+    r_nameCell.innerHTML = reimb.r_name;
+    let descriptionCell = document.createElement('td');
+    descriptionCell.innerHTML = reimb.description;
+    let authorCell = document.createElement('td');
+    authorCell.innerHTML = reimb.author;
+    let imageCell = document.createElement('td');
+    let imageElement = document.createElement('img');
+    imageCell.appendChild(imageElement);
+    imageElement.setAttribute('src', reimb.receipt);
 
-  let idCell = document.createElement('td');
-  idCell.innerHTML = data.reimbursements.r_id;
-  let amountCell = document.createElement('td');
-  nameCell.innerHTML = data.reimbursements.amount;
-  let submittedCell = document.createElement('td');
-  nameCell.innerHTML = data.reimbursements.submitted;
-  let status_nameCell = document.createElement('td');
-  nameCell.innerHTML = data.reimbursements.status_name;
-  let r_nameCell = document.createElement('td');
-  idCell.innerHTML = data.reimbursements.r_name;
-  let descriptionCell = document.createElement('td');
-  nameCell.innerHTML = data.reimbursements.description;
-  let authorCell = document.createElement('td');
-  nameCell.innerHTML = data.reimbursements.author;
-  let imageCell = document.createElement('td');
-  let imageElement = document.createElement('img');
-  imageCell.appendChild(imageElement);
-  imageElement.setAttribute('src', data.reimbursements.receipt);
+    row.appendChild(idCell);
+    row.appendChild(amountCell);
+    row.appendChild(submittedCell);
+    row.appendChild(status_nameCell);
+    row.appendChild(r_nameCell);
+    row.appendChild(descriptionCell);
+    row.appendChild(imageCell);
+    row.appendChild(authorCell);
 
-  row.appendChild(idCell);
-  row.appendChild(amountCell);
-  row.appendChild(submittedCell);
-  row.appendChild(status_nameCell);
-  row.appendChild(r_nameCell);
-  row.appendChild(descriptionCell);
-  row.appendChild(imageCell);
-  row.appendChild(authorCell);
-
-  reimbursementTbodyElement.appendChild(row);
+    reimbursementTbodyElement.appendChild(row);
+  }
 }
 
 // function isLogedIn() {
