@@ -1,13 +1,10 @@
 
 let welcome = document.getElementById('welcome');
 let loginStatusButton = document.getElementById('login-status');
-let header3 = document.getElementById('header3');
-let tbody = document.getElementById('reimb-tbl-body');
-
 
 document.addEventListener("DOMContentLoaded", async () => {
   try {
-    let res = await fetch('http://127.0.0.1:8080/reimbursements', {
+    let res = await fetch('http://127.0.0.1:8080/handle-reimbursements', {
       'credentials': 'same-origin',
       'credentials': 'include',
       'method': 'GET',
@@ -17,10 +14,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       }
     })
     let data = await res.json();
-    console.log(data);
-    if (data.role == 1) {
-      header3.removeAttribute('hidden');
-    }
+    console.log("new data", data);
     loginStatusButton.innerText = "Logout"
     welcome.innerText = "Welcome back, " + data.user + "!"
     addReimbursementsToTable(data);
@@ -28,8 +22,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     console.log(err);
   }
 });
-
-
 
 function addReimbursementsToTable(data) {
 
