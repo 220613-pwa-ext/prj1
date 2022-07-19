@@ -21,7 +21,7 @@ def get_reimbursements():
                }, 401
 
 
-@rc.route('/reimbursements/<user_id>')
+@rc.route('/handle-reimbursements')
 @jwt_required()
 def get_all_reimbursements_by_user_id():
     req_id = get_jwt_identity()

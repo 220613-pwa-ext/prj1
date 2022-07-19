@@ -14,7 +14,7 @@ class ReimbService:
         user = self.user_dao.get_user_by_username(req_id.get('username'))
         if not user:
             raise Unauthorized('Login required')
-        elif user.get('user_role') == 1:
+        elif user.get_user_role() == 1:
             return self.reimb_dao.get_all_reimb(req_id)
         else:
             raise Forbidden('Invalid authorization for the requested resource')
