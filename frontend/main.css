@@ -1,3 +1,7 @@
-#login-status, #header2, #header3,#filter {
+#login-status, #header2, #header3,#filter,#instr {
   color: royalblue;
+}
+
+th,#label-un, #label-password {
+  color: rgb(235, 132, 14);
 }
