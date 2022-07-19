@@ -1,10 +1,13 @@
 
 let welcome = document.getElementById('welcome');
 let loginStatusButton = document.getElementById('login-status');
+let tbody = document.getElementById('reimb-tbl-tbody');
+let filter = document.getElementById('filter');
+let url = "http://127.0.0.1:8080/handle-reimbursements"
 
 document.addEventListener("DOMContentLoaded", async () => {
   try {
-    let res = await fetch('http://127.0.0.1:8080/handle-reimbursements', {
+    let res = await fetch(url, {
       'credentials': 'same-origin',
       'credentials': 'include',
       'method': 'GET',
@@ -14,7 +17,6 @@ document.addEventListener("DOMContentLoaded", async () => {
       }
     })
     let data = await res.json();
-    console.log("new data", data);
     loginStatusButton.innerText = "Logout"
     welcome.innerText = "Welcome back, " + data.user + "!"
     addReimbursementsToTable(data);
@@ -23,9 +25,33 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 });
 
+filter.addEventListener('change', async (e) => {
+
+  while (tbody.hasChildNodes()) {
+    tbody.removeChild(tbody.lastChild);
+  }
+  try {
+    let res = await fetch(url + "?status=" + filter.value, {
+      'credentials': 'same-origin',
+      'credentials': 'include',
+      'method': 'GET',
+      'headers': {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Credentials': 'true'
+      }
+    })
+    let data = await res.json();
+    addReimbursementsToTable(data);
+  } catch (err) {
+    console.log(err);
+  }
+
+  // window.location.reload();
+});
+
+
 function addReimbursementsToTable(data) {
 
-  let reimbursementTbodyElement = document.querySelector('#reimb-tbl');
   for (reimb of data.reimbursements) {
     let row = document.createElement('tr');
 
@@ -57,6 +83,6 @@ function addReimbursementsToTable(data) {
     row.appendChild(imageCell);
     row.appendChild(authorCell);
 
-    reimbursementTbodyElement.appendChild(row);
+    tbody.appendChild(row);
   }
 }
