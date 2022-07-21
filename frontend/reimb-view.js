@@ -23,11 +23,15 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (data.role == 1) {
       header3.removeAttribute('hidden');
     }
-    loginStatusButton.innerText = "Logout"
+
     welcome.innerText = "Welcome back, " + data.user + "!"
     addReimbursementsToTable(data);
   } catch (err) {
-    console.log(err);
+    if (err.message == "Failed to fetch") {
+      welcome.innerHTML = "Server unreachable: contact IT Admin";
+      welcome.style.color = 'red';
+      welcome.style.fontWeight = 'bold';
+    }
   }
 });
 
@@ -51,10 +55,12 @@ filter.addEventListener('change', async (e) => {
     console.log(data);
     addReimbursementsToTable(data);
   } catch (err) {
-    console.log(err);
+    if (err.message == "Failed to fetch") {
+      welcome.innerHTML = "Server unreachable: contact IT Admin";
+      welcome.style.color = 'red';
+      welcome.style.fontWeight = 'bold';
+    }
   }
-
-  // window.location.reload();
 });
 
 
@@ -70,7 +76,16 @@ function addReimbursementsToTable(data) {
     let submittedCell = document.createElement('td');
     submittedCell.innerHTML = reimb.submitted;
     let status_nameCell = document.createElement('td');
-    status_nameCell.innerHTML = reimb.status_name;
+
+    if (reimb.status_name == "pending") {
+      status_nameCell.innerHTML = reimb.status_name;
+    } else if (reimb.status_name == "denied") {
+      status_nameCell.innerHTML = reimb.status_name;
+      status_nameCell.style.color = 'red';
+    } else if (reimb.status_name == "approved") {
+      status_nameCell.innerHTML = reimb.status_name;
+      status_nameCell.style.color = 'green';
+    }
     let r_nameCell = document.createElement('td');
     r_nameCell.innerHTML = reimb.r_name;
     let descriptionCell = document.createElement('td');

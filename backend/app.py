@@ -11,9 +11,7 @@ from flask_cors import CORS
 from flask_jwt_extended import create_access_token
 from flask_jwt_extended import get_jwt
 from flask_jwt_extended import get_jwt_identity
-from flask_jwt_extended import jwt_required
 from flask_jwt_extended import set_access_cookies
-from flask_jwt_extended import unset_jwt_cookies
 
 config = dotenv_values(".env")
 
@@ -36,7 +34,6 @@ if __name__ == '__main__':
     app.register_blueprint(rc)
     app.register_blueprint(uc)
     app.register_blueprint(ac)
-    # CORS(app)
     CORS(app, supports_credentials=True)
 
 

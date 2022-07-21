@@ -36,3 +36,19 @@ class ReimbService:
         else:
             return self.reimb_dao.get_reimb_author_id_args(req_id, args)
 
+    def update_reimbursement_by_reimb_id(self, req_id, reimb_id, status):
+        user = self.user_dao.get_user_by_username(req_id.get('username'))
+        reimb = self.reimb_dao.get_reimb_by_reimb_id(reimb_id)
+        if not user:
+            raise Unauthorized('Login required')
+        elif user.get_user_role() > 1:
+            raise Forbidden('Invalid authorization for the requested resource')
+        elif reimb.get_status_id() != 1:
+            raise Forbidden('The requested resource is in a resolved status already')
+        elif status not in (2, 3):
+            raise InvalidParameter('The allowed values are either 3 or 2!')
+        elif self.reimb_dao.update_reimb_by_reimb_id(reimb_id, status):
+            return "Successful data update!"
+
+
+

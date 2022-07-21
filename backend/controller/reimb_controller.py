@@ -45,3 +45,30 @@ def get_all_reimbursements_by_user_id():
         return {
                    "message": str(e)
                }, 401
+
+
+@rc.route('/handle-reimbursements/<reimbursement_id>')
+@jwt_required()
+def update_reimbursement_by_reimb_id(reimbursement_id):
+    status = int(str(reimbursement_id)[0])
+    reimb_id = int(str(reimbursement_id)[1:])
+    print(status, " ", reimb_id)
+    req_id = get_jwt_identity()
+
+    try:
+        reimb_service.update_reimbursement_by_reimb_id(req_id, reimb_id, status)
+        return {"reimbursements": reimb_service.get_all_reimbursements(req_id, None),
+                "user": req_id.get('first_name'),
+                "role": req_id.get('user_role')}, 200
+    except Unauthorized as e:
+        return {
+                   "message": str(e)
+               }, 401
+    except InvalidParameter as e:
+        return {
+                   "message": str(e)
+               }, 400
+    except Forbidden as e:
+        return {
+                   "message": str(e)
+               }, 403
