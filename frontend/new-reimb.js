@@ -1,19 +1,10 @@
 
 let welcome = document.getElementById('welcome');
-let loginStatusButton = document.getElementById('login-status');
-let header3 = document.getElementById('header3');
-let header2 = document.getElementById('header2');
-let newReimb = document.getElementById('new-reimb');
-let tbody = document.getElementById('reimb-tbl-tbody');
 let submitButton = document.getElementById('submit-btn');
+let tbody = document.getElementById('reimb-tbl-tbody');
 let filter = document.getElementById('filter');
-let error = document.getElementById('error-message');
-let success = document.getElementById('success-messages');
-let amount = document.getElementById('amount');
-let description = document.getElementById('description');
-let category = document.getElementById('category');
-let receipt = document.getElementById('receipt');
 let url = "http://127.0.0.1:8080/reimbursements"
+
 
 document.addEventListener("DOMContentLoaded", async () => {
   try {
@@ -27,81 +18,16 @@ document.addEventListener("DOMContentLoaded", async () => {
       }
     })
     let data = await res.json();
-    if (data.role == 1) {
-      header3.removeAttribute('hidden');
-    }
-
     welcome.innerText = "Welcome back, " + data.user + "!"
     addReimbursementsToTable(data);
   } catch (err) {
     if (err.message == "Failed to fetch") {
-      welcome.innerText = "Server unreachable: contact IT Admin";
+      welcome.innerHTML = "Server unreachable: contact IT Admin";
       welcome.style.color = 'red';
       welcome.style.fontWeight = 'bold';
     }
   }
 });
-
-header2.addEventListener('click', () => {
-  newReimb.removeAttribute('hidden');
-})
-
-submitButton.addEventListener('click', async (e) => {
-  //e.preventDefault();
-
-  if (!amount.value || !description || category.value == 4) {
-    error.innerText = "All fields must contain data";
-    error.style.color = 'red';
-    error.style.fontWeight = 'bold';
-  } else {
-    error.innerText = '';
-
-    try {
-      let res = await fetch('http://127.0.0.1:8080/reimbursement', {
-        'credentials': 'same-origin',
-        'credentials': 'include',
-        'method': 'POST',
-        'headers': {
-          'Content-Type': 'application/json',
-          'Access-Control-Allow-Credentials': 'true'
-        },
-        'body': JSON.stringify({
-          "amount": amount.value,
-          "description": description.value,
-          "receipt": receipt.value,
-          "type_id": category.value
-        })
-      })
-      console.log(res);
-      if (res.status == 201) {
-        let data = await res.json();
-        console.log(data);
-        success.removeAttribute('hidden');
-        success.innerText = data.message;
-        addReimbursementsToTable(data);
-
-
-        setTimeout(() => {
-          success.setAttribute('hidden');
-        }, 5000)
-      }
-
-
-
-      // if (data.role == 1) {
-      //   header3.removeAttribute('hidden');
-      // }
-
-      // welcome.innerText = "Welcome back, " + data.user + "!"
-    } catch (err) {
-      if (err.message == "Failed to fetch") {
-        welcome.innerText = "Server unreachable: contact IT Admin";
-        welcome.style.color = 'red';
-        welcome.style.fontWeight = 'bold';
-      }
-    }
-  }
-})
 
 filter.addEventListener('change', async (e) => {
 
@@ -127,10 +53,46 @@ filter.addEventListener('change', async (e) => {
       welcome.style.fontWeight = 'bold';
     }
   }
+
 });
+
+document.addEventListener('click', (e) => {
+  e.stopPropagation();
+  e.target.addEventListener('change', async (e) => {
+    if (String(e.target.innerHTML).includes('class="my-class dropdown-item"')) {
+      console.log(e.target.value)
+      while (tbody.hasChildNodes()) {
+        tbody.removeChild(tbody.lastChild);
+      }
+      try {
+        let res = await fetch("http://127.0.0.1:8080/handle-reimbursements/" + e.target.value, {
+          'credentials': 'same-origin',
+          'credentials': 'include',
+          'method': 'GET',
+          'headers': {
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Credentials': 'true'
+          }
+        })
+        let data = await res.json();
+
+        welcome.innerText = "Welcome back, " + data.user + "!"
+        addReimbursementsToTable(data);
+      } catch (err) {
+        if (err.message == "Failed to fetch") {
+          welcome.innerHTML = "Server unreachable: contact IT Admin";
+          welcome.style.color = 'red';
+          welcome.style.fontWeight = 'bold';
+        }
+      }
+    }
+  })
+})
+
 
 
 function addReimbursementsToTable(data) {
+
   for (reimb of data.reimbursements) {
     let row = document.createElement('tr');
 
@@ -141,9 +103,10 @@ function addReimbursementsToTable(data) {
     let submittedCell = document.createElement('td');
     submittedCell.innerHTML = reimb.submitted;
     let status_nameCell = document.createElement('td');
-
     if (reimb.status_name == "pending") {
-      status_nameCell.innerHTML = reimb.status_name;
+      status_nameCell.innerHTML = '<select name="status-in-row" class="filter-in-row"> <option class="my-class dropdown-item" value=1' +
+        '>Pending</option> <option class="my-class dropdown-item" value="2' + reimb.r_id + '">Approved</option>' +
+        '<option class="my-class dropdown-item" value="3' + reimb.r_id + '">Denied</option> </select>'
     } else if (reimb.status_name == "denied") {
       status_nameCell.innerHTML = reimb.status_name;
       status_nameCell.style.color = 'red';
@@ -151,6 +114,8 @@ function addReimbursementsToTable(data) {
       status_nameCell.innerHTML = reimb.status_name;
       status_nameCell.style.color = 'green';
     }
+
+
     let r_nameCell = document.createElement('td');
     r_nameCell.innerHTML = reimb.r_name;
     let descriptionCell = document.createElement('td');

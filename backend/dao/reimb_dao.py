@@ -106,3 +106,15 @@ class ReimbDao:
                                          reimb[7], reimb[8], reimb[9])
                 else:
                     return None
+
+    def add_reimb(self, req_id, amount, description, type_id, receipt):
+        with pool.connection() as conn:
+            with conn.cursor() as cur:
+                cur.execute("INSERT INTO ers_reimbursements (amount, submitted, status_id, type_id, description, "
+                            "receipt, author_id) VALUES (%s, Now(), 1, %s, %s, bytea(''), %s) returning *",
+                            (amount, type_id, description, req_id.get("user_id")))
+                reimb = cur.fetchone()
+                if reimb:
+                    return True
+                else:
+                    return False

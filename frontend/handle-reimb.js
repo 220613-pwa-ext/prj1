@@ -86,9 +86,8 @@ document.addEventListener('click', (e) => {
         }
       }
     }
-
   })
-});
+})
 
 
 

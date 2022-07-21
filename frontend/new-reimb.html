@@ -7,15 +7,13 @@
     <title>Reimbursements</title>
     <link rel="stylesheet" href="/main.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
-    <script defer type="text/javascript" src="/reimb-view.js"></script>
+    <script defer type="text/javascript" src="/new-reimb.js"></script>
   </head>
   <body>
-    <nav id="nav" class="navbar navbar-expand-lg bg-light">
+    <nav class="navbar navbar-expand-lg bg-light">
       <div class="container-fluid">
-        <div id="header1" class="navbar-brand" >ERS</div>
-        
-        <a id="header2" class="navbar-brand" href="#">Add Reimbursement</a>
-        <a id="header3" class="navbar-brand" href="/handle-reimb.html" hidden>Deny or Approve Reimbursements</a>
+        <div id="header1" class="navbar-brand">ERS</div>
+        <a id="header3" class="navbar-brand" href="/reimb-view.html" >My Reimbursement Requests</a>
 
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
@@ -29,8 +27,7 @@
         </div>
       </div>
     </nav>
-    <div id="success-messages" hidden></div>
-    <section id="new-reimb" hidden>
+    <section>
       <div class="card" style="width: 40rem;">
         <div class="card-body">
           <h5 class="card-title">New Reimbursement Request</h5><br><br>
@@ -47,7 +44,7 @@
               </div>
               <div>
                 <label for="receipt">Upload Receipt:</label>
-                <input type="text" class="form-control" id="receipt" name="receipt"><br><br>
+                <input type="file" class="form-control" id="receipt" name="receipt"><br><br>
               </div>
               <div>
                 <label for="receipt">Select the Category:</label>
@@ -59,44 +56,11 @@
                   <option class="dropdown-item" value="3">Other</option>
                 </select>
               </div><br><br>
-              <a id="submit-btn" href="#" class="btn btn-outline-light btn-lg px-5">Submit Reimbursement Request</a>
-              <div id="error-message"></div>
+              <button id="submit-btn" type="submit" class="btn-lg btn form-control">Submit Reimbursement Request</button>
+              <div id="login-error-message"></div>
             </form>
         </div>
       </div>   
-    </section>
-    <div id="fil" class="container-fluid dropdown-center">
-      <p>
-        This system view allows you to filter by reimbursement status your requests history.
-      </p>
-      
-        <select name="status" id="filter">
-          <option class="dropdown-item" value="0">Any Status</option>
-          <option class="dropdown-item" value="1">Pending</option>
-          <option class="dropdown-item" value="2">Approved</option>
-          <option class="dropdown-item" value="3">Denied</option>
-        </select>
-        
-
-    </div>
-    <section>
-      <table id="reimb-tbl" class="table">
-        <thead>
-          <tr>
-            <th scope="col">Reimbursement ID</th>
-            <th scope="col">Amount</th>
-            <th scope="col">Created ON</th>
-            <th scope="col">Status</th>
-            <th scope="col">Type</th>
-            <th scope="col">Description</th>
-            <th scope="col">Receipt</th>
-            <th scope="col">Author</th>
-          </tr>
-        </thead>
-        <tbody id="reimb-tbl-tbody">
-                    
-        </tbody>
-      </table>
     </section>
   </body>
 </html>

@@ -31,6 +31,33 @@ def get_reimbursements():
                    "message": str(e)
                }, 403
 
+@rc.route('/reimbursement', methods=['POST'])
+@jwt_required()
+def add_reimbursement():
+    amount = request.json.get("amount", None)
+    description = request.json.get("description", None)
+    receipt = request.json.get("receipt", None)
+    type_id = request.json.get("type_id", None)
+    req_id = get_jwt_identity()
+    try:
+        resolve = reimb_service.add_reimbursement(req_id, amount, description, receipt, type_id)
+        return {"reimbursements": reimb_service.get_reimbursements_by_user_id(req_id, None),
+                "user": req_id.get('first_name'),
+                "role": req_id.get('user_role'),
+                "message": f"Request resolve status: {resolve}"}, 201
+    except Unauthorized as e:
+        return {
+                   "message": str(e)
+               }, 401
+    except InvalidParameter as e:
+        return {
+                   "message": str(e)
+               }, 400
+    except Forbidden as e:
+        return {
+                   "message": str(e)
+               }, 403
+
 
 @rc.route('/handle-reimbursements')
 @jwt_required()

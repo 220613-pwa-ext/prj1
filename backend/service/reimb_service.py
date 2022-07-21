@@ -50,5 +50,16 @@ class ReimbService:
         elif self.reimb_dao.update_reimb_by_reimb_id(reimb_id, status):
             return "Successful data update!"
 
+    def add_reimbursement(self, req_id, amount, description, receipt, type_id):
+        user = self.user_dao.get_user_by_username(req_id.get('username'))
+        if not user:
+            raise Unauthorized('Login required')
+        try:
+            amount = float(amount)
+            type_id = float(type_id)
+        except ValueError as e:
+            raise InvalidParameter('Enter numbers for this field')
+        return self.reimb_dao.add_reimb(req_id, amount, description, type_id, receipt)
+
 
 
