@@ -18,13 +18,13 @@ let url = "http://127.0.0.1:8080/reimbursements"
 document.addEventListener("DOMContentLoaded", async () => {
   try {
     let res = await fetch(url, {
-      'credentials': 'same-origin',
+      // 'credentials': 'same-origin',
       'credentials': 'include',
       'method': 'GET',
-      'headers': {
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Credentials': 'true'
-      }
+      // 'headers': {
+      //   'Content-Type': 'application/json'
+      //   // 'Access-Control-Allow-Credentials': 'true'
+      // }
     })
     let data = await res.json();
     if (data.role == 1) {
@@ -55,22 +55,25 @@ submitButton.addEventListener('click', async (e) => {
     error.style.fontWeight = 'bold';
   } else {
     error.innerText = '';
-
+    const formData = new FormData();
+    const image = new Blob([JSON.stringify({
+      receipt: receipt.value,
+    })], {
+      type: 'image/jpeg'
+    });
+    formData.append("receipt", receipt.files[0])
+    formData.append("description", description.value)
+    formData.append("amount", amount.value)
+    formData.append("type_id", category.value)
+    console.log(...formData)
     try {
       let res = await fetch('http://127.0.0.1:8080/reimbursement', {
         'credentials': 'same-origin',
         'credentials': 'include',
         'method': 'POST',
-        'headers': {
-          'Content-Type': 'application/json',
-          'Access-Control-Allow-Credentials': 'true'
-        },
-        'body': JSON.stringify({
-          "amount": amount.value,
-          "description": description.value,
-          "receipt": receipt.value,
-          "type_id": category.value
-        })
+
+        'body': formData
+
       })
       console.log(res);
       if (res.status == 201) {

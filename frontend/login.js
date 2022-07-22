@@ -8,7 +8,7 @@ loginSubmitButton.addEventListener('click', async (e) => {
   e.preventDefault();
   try {
     let res = await fetch('http://127.0.0.1:8080/login', {
-      'credentials': 'same-origin',
+      // 'credentials': 'same-origin',
       'credentials': 'include',
       'method': 'POST',
       'headers': {

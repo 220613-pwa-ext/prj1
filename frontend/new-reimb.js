@@ -1,8 +1,6 @@
 
 let welcome = document.getElementById('welcome');
 let submitButton = document.getElementById('submit-btn');
-let tbody = document.getElementById('reimb-tbl-tbody');
-let filter = document.getElementById('filter');
 let url = "http://127.0.0.1:8080/reimbursements"
 
 
@@ -29,7 +27,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 });
 
-filter.addEventListener('change', async (e) => {
+submitButton.addEventListener('click', async (e) => {
 
   while (tbody.hasChildNodes()) {
     tbody.removeChild(tbody.lastChild);

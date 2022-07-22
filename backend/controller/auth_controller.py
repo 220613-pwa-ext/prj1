@@ -2,12 +2,14 @@ from flask import Blueprint, request, jsonify, make_response
 from exception.Unauthorized import Unauthorized
 from service.auth_service import AuthService
 from flask_jwt_extended import create_access_token, set_access_cookies, unset_jwt_cookies
+from flask_cors import cross_origin
 
 ac = Blueprint('auth_controller', __name__)
 auth_service = AuthService()
 
 
-@ac.route('/login', methods=['POST'])
+@ac.route('/login', methods=['POST', 'OPTIONS'])
+# @cross_origin(supports_credentials=True)
 def login():
     username = request.json.get("username", None)
     password = request.json.get("password", None)

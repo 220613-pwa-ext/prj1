@@ -106,7 +106,7 @@ function addReimbursementsToTable(data) {
     if (reimb.status_name == "pending") {
       status_nameCell.innerHTML = '<select name="status-in-row" class="filter-in-row"> <option class="my-class dropdown-item" value=1' +
         '>Pending</option> <option class="my-class dropdown-item" value="2' + reimb.r_id + '">Approved</option>' +
-        '<option class="my-class dropdown-item" value="3' + reimb.r_id + '">Denied</option> </select>'
+        '<option class="my-class dropdown-item" value="3' + reimb.r_id + '">Denied</option> </select>';
     } else if (reimb.status_name == "denied") {
       status_nameCell.innerHTML = reimb.status_name;
       status_nameCell.style.color = 'red';

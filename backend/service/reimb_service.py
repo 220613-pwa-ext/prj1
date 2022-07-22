@@ -29,7 +29,7 @@ class ReimbService:
 
         if not user:
             raise Unauthorized('Login required')
-        elif not args or int(args.get('status')) == 0:
+        if not args or int(args.get('status')) == 0:
             return self.reimb_dao.get_reimb_author_id(req_id)
         elif int(args.get('status')) not in (1, 2, 3):
             raise InvalidParameter('Expected query parameter name was "status" with the value 1, 2, or 3!')
