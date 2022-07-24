@@ -35,7 +35,7 @@ class ReimbDao:
                             "FROM ers_reimbursements r "
                             "JOIN ers_status_types est ON r.status_id = est.id "
                             "JOIN ers_reimbursement_types ert ON r.type_id = ert.id "
-                            "JOIN ers_users eu ON r.author_id = eu.id "
+                            "LEFT JOIN ers_users eu ON r.resolver_id = eu.id "
                             "WHERE r.author_id = %s ORDER BY r.submitted", (req_id.get("user_id"),))
                 my_list_of_reimbursement_dicts = []
                 for reimb in cur:
@@ -44,7 +44,7 @@ class ReimbDao:
                     r_dict = {"r_id": reimb[0], "amount": reimb[1], "submitted": reimb[2], "status_name": reimb[3],
                               "r_name": reimb[4], "description": reimb[5], "receipt": '/receipts/' + str(reimb[0]) + '.jpeg',
                               #"receipt": '/receipts/' + str(reimb[0]) + '.jpeg',
-                              "author": reimb[7]}
+                              "resolver": reimb[7]}
                     my_list_of_reimbursement_dicts.append(r_dict)
 
                 return my_list_of_reimbursement_dicts
@@ -57,14 +57,14 @@ class ReimbDao:
                             "FROM ers_reimbursements r "
                             "JOIN ers_status_types est ON r.status_id = est.id "
                             "JOIN ers_reimbursement_types ert ON r.type_id = ert.id "
-                            "JOIN ers_users eu ON r.author_id = eu.id "
+                            "LEFT JOIN ers_users eu ON r.resolver_id = eu.id "
                             "WHERE r.author_id = %s AND status_id = %s "
                             "ORDER BY r.submitted", (req_id.get("user_id"), args.get('status')))
                 my_list_of_reimbursement_dicts = []
                 for reimb in cur:
                     r_dict = {"r_id": reimb[0], "amount": reimb[1], "submitted": reimb[2], "status_name": reimb[3],
                               "r_name": reimb[4], "description": reimb[5], "receipt": '/receipts/' + str(reimb[0]) + '.jpeg',
-                              "author": reimb[7]}
+                              "resolver": reimb[7]}
                     my_list_of_reimbursement_dicts.append(r_dict)
 
                 return my_list_of_reimbursement_dicts
@@ -89,11 +89,11 @@ class ReimbDao:
 
                 return my_list_of_reimbursement_dicts
 
-    def update_reimb_by_reimb_id(self, reimb_id, status):
+    def update_reimb_by_reimb_id(self, reimb_id, user_id, status):
         with pool.connection() as conn:
             with conn.cursor() as cur:
-                cur.execute("UPDATE ers_reimbursements SET status_id = %s, resolved = Now() WHERE id = %s RETURNING *"
-                            , (status, reimb_id))
+                cur.execute("UPDATE ers_reimbursements SET status_id = %s, resolver_id = %s, resolved = Now() WHERE id = %s RETURNING *"
+                            , (status, user_id, reimb_id))
                 reimb = cur.fetchone()
                 if reimb:
                     return Reimbursement(reimb[0], reimb[1], reimb[2], reimb[3], reimb[4], reimb[5], reimb[6],

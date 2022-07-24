@@ -12,8 +12,7 @@
   <body>
     <nav id="nav" class="navbar navbar-expand-lg bg-light">
       <div class="container-fluid">
-        <div id="header1" class="navbar-brand" >ERS</div>
-        
+        <a id="header1" class="navbar-brand" href="index.html">ERS</a>
         <a id="header2" class="navbar-brand" href="#">Add Reimbursement</a>
         <a id="header3" class="navbar-brand" href="/handle-reimb.html" hidden>Deny or Approve Reimbursements</a>
 
@@ -50,7 +49,7 @@
                 <input type="file" enctype="multipart/form-data" class="form-control" id="receipt" name="receipt"><br><br>
               </div>
               <div>
-                <label for="receipt">Select the Category:</label>
+                <label for="receipt">Select the Expense Category:</label>
                 <select name="status" id="category">
                   <option class="dropdown-item" value="0">Click here to make a selection</option>
                   <option class="dropdown-item" value="1">Lodging</option>
@@ -67,7 +66,7 @@
     </section>
     <div id="fil" class="container-fluid dropdown-center">
       <p>
-        This system view allows you to filter by reimbursement status your requests history.
+        This system view allows you to filter your requests history by reimbursement <u>status</u>.
       </p>
       
         <select name="status" id="filter">
@@ -90,7 +89,7 @@
             <th scope="col">Type</th>
             <th scope="col">Description</th>
             <th scope="col">Receipt</th>
-            <th scope="col">Author</th>
+            <th scope="col">Resolver</th>
           </tr>
         </thead>
         <tbody id="reimb-tbl-tbody">

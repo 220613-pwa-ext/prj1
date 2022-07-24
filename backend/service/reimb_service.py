@@ -47,7 +47,7 @@ class ReimbService:
             raise Forbidden('The requested resource is in a resolved status already')
         elif status not in (2, 3):
             raise InvalidParameter('The allowed values are either 3 or 2!')
-        elif self.reimb_dao.update_reimb_by_reimb_id(reimb_id, status):
+        elif self.reimb_dao.update_reimb_by_reimb_id(reimb_id, req_id.get('user_id'), status):
             return "Successful data update!"
 
     def add_reimbursement(self, req_id, amount, description, receipt, type_id):
