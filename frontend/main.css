@@ -12,3 +12,14 @@ th,#label-un, #label-password, .card-title {
   margin-left: 30%;
   color: greenyellow;
 }
+
+.intro h1{
+  color: aqua;
+  align-items: center;
+  margin-top: 2%;
+  margin-inline: 10%;
+}
+
+.intro p {
+  color: yellowgreen
+}
