@@ -1,14 +1,12 @@
 let usernameInput = document.getElementById('username');
 let passwordInput = document.getElementById('password');
 let loginSubmitButton = document.getElementById('login-submit-btn');
-let junkVariable = "";
 let loginErrorMessageDiv = document.getElementById('login-error-message')
 
 loginSubmitButton.addEventListener('click', async (e) => {
   e.preventDefault();
   try {
     let res = await fetch('http://127.0.0.1:8080/login', {
-      // 'credentials': 'same-origin',
       'credentials': 'include',
       'method': 'POST',
       'headers': {
@@ -32,7 +30,7 @@ loginSubmitButton.addEventListener('click', async (e) => {
   } catch (err) {
     if (err.message == "Failed to fetch") {
       let errorElement = document.createElement('p');
-      errorElement.innerHTML = "Server unreachable: contact IT Admin";
+      errorElement.innerHTML = "Server issue: contact IT Admin";
       errorElement.style.color = 'red';
       errorElement.style.fontWeight = 'bold';
       loginErrorMessageDiv.appendChild(errorElement);

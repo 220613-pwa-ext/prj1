@@ -13,24 +13,24 @@ let amount = document.getElementById('amount');
 let description = document.getElementById('description');
 let category = document.getElementById('category');
 let receipt = document.getElementById('receipt');
-let url = "http://127.0.0.1:8080/reimbursements"
+let url = "http://127.0.0.1:8080/reimbursement"
+let data = null;
 
-document.addEventListener("DOMContentLoaded", async () => {
+const grabDataAndFeedtoPage = async () => {
   try {
-    let res = await fetch(url, {
-      // 'credentials': 'same-origin',
+    let res = await fetch(url + 's?status=' + filter.value, {
       'credentials': 'include',
       'method': 'GET',
-      // 'headers': {
-      //   'Content-Type': 'application/json'
-      //   // 'Access-Control-Allow-Credentials': 'true'
-      // }
+      'headers': {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Credentials': 'true'
+      }
     })
-    let data = await res.json();
+    data = await res.json();
+    console.log(data);
     if (data.role == 1) {
       header3.removeAttribute('hidden');
     }
-
     welcome.innerText = "Welcome back, " + data.user + "!"
     addReimbursementsToTable(data);
   } catch (err) {
@@ -39,17 +39,21 @@ document.addEventListener("DOMContentLoaded", async () => {
       welcome.style.color = 'red';
       welcome.style.fontWeight = 'bold';
     }
+    else {
+      console.log(err)
+    }
   }
-});
+};
+
+document.addEventListener("DOMContentLoaded", grabDataAndFeedtoPage);
 
 header2.addEventListener('click', () => {
   newReimb.removeAttribute('hidden');
 })
 
 submitButton.addEventListener('click', async (e) => {
-  //e.preventDefault();
 
-  if (!amount.value || !description || category.value == 4) {
+  if (!amount.value || !description.value || category.value == 4) {
     error.innerText = "All fields must contain data";
     error.style.color = 'red';
     error.style.fontWeight = 'bold';
@@ -67,35 +71,28 @@ submitButton.addEventListener('click', async (e) => {
     formData.append("type_id", category.value)
     console.log(...formData)
     try {
-      let res = await fetch('http://127.0.0.1:8080/reimbursement', {
+      let res = await fetch(url, {
         'credentials': 'same-origin',
         'credentials': 'include',
         'method': 'POST',
-
         'body': formData
-
       })
       console.log(res);
+      while (tbody.hasChildNodes()) {
+        tbody.removeChild(tbody.lastChild);
+      }
+      data = await res.json();
+      addReimbursementsToTable(data);
+      newReimb.setAttribute('hidden', true);
       if (res.status == 201) {
-        let data = await res.json();
+
         console.log(data);
         success.removeAttribute('hidden');
         success.innerText = data.message;
-        addReimbursementsToTable(data);
-
-
         setTimeout(() => {
-          success.setAttribute('hidden');
+          success.setAttribute('hidden', true);
         }, 5000)
       }
-
-
-
-      // if (data.role == 1) {
-      //   header3.removeAttribute('hidden');
-      // }
-
-      // welcome.innerText = "Welcome back, " + data.user + "!"
     } catch (err) {
       if (err.message == "Failed to fetch") {
         welcome.innerText = "Server unreachable: contact IT Admin";
@@ -112,7 +109,7 @@ filter.addEventListener('change', async (e) => {
     tbody.removeChild(tbody.lastChild);
   }
   try {
-    let res = await fetch(url + "?status=" + filter.value, {
+    let res = await fetch(url + "s?status=" + filter.value, {
       'credentials': 'same-origin',
       'credentials': 'include',
       'method': 'GET',
@@ -121,7 +118,7 @@ filter.addEventListener('change', async (e) => {
         'Access-Control-Allow-Credentials': 'true'
       }
     })
-    let data = await res.json();
+    data = await res.json();
     addReimbursementsToTable(data);
   } catch (err) {
     if (err.message == "Failed to fetch") {
@@ -161,9 +158,10 @@ function addReimbursementsToTable(data) {
     let authorCell = document.createElement('td');
     authorCell.innerHTML = reimb.author;
     let imageCell = document.createElement('td');
-    let imageElement = document.createElement('img');
-    imageCell.appendChild(imageElement);
-    imageElement.setAttribute('src', reimb.receipt);
+    let aElement = document.createElement('a');
+    aElement.setAttribute('href', reimb.receipt);
+    aElement.innerText = 'view receipt'
+    imageCell.appendChild(aElement);
 
     row.appendChild(idCell);
     row.appendChild(amountCell);

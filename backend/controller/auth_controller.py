@@ -2,21 +2,26 @@ from flask import Blueprint, request, jsonify, make_response
 from exception.Unauthorized import Unauthorized
 from service.auth_service import AuthService
 from flask_jwt_extended import create_access_token, set_access_cookies, unset_jwt_cookies
-from flask_cors import cross_origin
+import flask
 
 ac = Blueprint('auth_controller', __name__)
 auth_service = AuthService()
 
 
 @ac.route('/login', methods=['POST', 'OPTIONS'])
-# @cross_origin(supports_credentials=True)
 def login():
+    if request.method == "OPTIONS":
+        resp = flask.Response("preflight")
+        resp.headers["Access-Control-Allow-Origin"] = "http://127.0.0.1:5500"
+        resp.headers["Access-Control-Allow-Headers"] = "Content-Type, Content-Length"
+        resp.headers["Access-Control-Allow-Methods"] = "POST, OPTIONS"
+        resp.headers['Access-Control-Allow-Credentials'] = 'true'
+        return resp
     username = request.json.get("username", None)
     password = request.json.get("password", None)
     try:
         user = auth_service.login(username, password)
         response = jsonify({"msg": "login successful"})
-        # response.headers['Access-Control-Allow-Credentials'] = ''
         access_token = create_access_token(identity={"user_id": user.get_user_id(),
                                                      "username": user.get_username(),
                                                      "first_name": user.get_first_name(),

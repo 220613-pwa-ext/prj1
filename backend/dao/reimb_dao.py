@@ -17,9 +17,11 @@ class ReimbDao:
                             "WHERE r.author_id <> %s "
                             "ORDER BY r.submitted", (req_id.get("user_id"),))
                 my_list_of_reimbursement_dicts = []
+
                 for reimb in cur:
+                    open('../frontend/receipts/' + str(reimb[0]) + '.jpeg', 'wb').write(reimb[6])
                     r_dict = {"r_id": reimb[0], "amount": reimb[1], "submitted": reimb[2], "status_name": reimb[3],
-                              "r_name": reimb[4], "description": reimb[5], "receipt": reimb[6].decode(),
+                              "r_name": reimb[4], "description": reimb[5], "receipt": '/receipts/' + str(reimb[0]) + '.jpeg',
                               "author": reimb[7]}
                     my_list_of_reimbursement_dicts.append(r_dict)
 
@@ -37,8 +39,11 @@ class ReimbDao:
                             "WHERE r.author_id = %s ORDER BY r.submitted", (req_id.get("user_id"),))
                 my_list_of_reimbursement_dicts = []
                 for reimb in cur:
+
+                    open('../frontend/receipts/' + str(reimb[0]) + '.jpeg', 'wb').write(reimb[6])
                     r_dict = {"r_id": reimb[0], "amount": reimb[1], "submitted": reimb[2], "status_name": reimb[3],
-                              "r_name": reimb[4], "description": reimb[5], "receipt": reimb[6].decode(),
+                              "r_name": reimb[4], "description": reimb[5], "receipt": '/receipts/' + str(reimb[0]) + '.jpeg',
+                              #"receipt": '/receipts/' + str(reimb[0]) + '.jpeg',
                               "author": reimb[7]}
                     my_list_of_reimbursement_dicts.append(r_dict)
 
@@ -58,7 +63,7 @@ class ReimbDao:
                 my_list_of_reimbursement_dicts = []
                 for reimb in cur:
                     r_dict = {"r_id": reimb[0], "amount": reimb[1], "submitted": reimb[2], "status_name": reimb[3],
-                              "r_name": reimb[4], "description": reimb[5], "receipt": reimb[6].decode(),
+                              "r_name": reimb[4], "description": reimb[5], "receipt": '/receipts/' + str(reimb[0]) + '.jpeg',
                               "author": reimb[7]}
                     my_list_of_reimbursement_dicts.append(r_dict)
 
@@ -78,7 +83,7 @@ class ReimbDao:
                 my_list_of_reimbursement_dicts = []
                 for reimb in cur:
                     r_dict = {"r_id": reimb[0], "amount": reimb[1], "submitted": reimb[2], "status_name": reimb[3],
-                              "r_name": reimb[4], "description": reimb[5], "receipt": reimb[6].decode(),
+                              "r_name": reimb[4], "description": reimb[5], "receipt": '/receipts/' + str(reimb[0]) + '.jpeg',
                               "author": reimb[7]}
                     my_list_of_reimbursement_dicts.append(r_dict)
 
@@ -108,11 +113,12 @@ class ReimbDao:
                     return None
 
     def add_reimb(self, req_id, amount, description, type_id, receipt):
+        f = receipt.read()
         with pool.connection() as conn:
             with conn.cursor() as cur:
                 cur.execute("INSERT INTO ers_reimbursements (amount, submitted, status_id, type_id, description, "
-                            "receipt, author_id) VALUES (%s, Now(), 1, %s, %s, bytea(''), %s) returning *",
-                            (amount, type_id, description, req_id.get("user_id")))
+                            "receipt, author_id) VALUES (%s, Now(), 1, %s, %s, %s, %s) returning *",
+                            (amount, type_id, description, f, req_id.get("user_id") ))
                 reimb = cur.fetchone()
                 if reimb:
                     return True

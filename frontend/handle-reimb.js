@@ -9,7 +9,7 @@ let url = "http://127.0.0.1:8080/handle-reimbursements"
 document.addEventListener("DOMContentLoaded", async () => {
   try {
     let res = await fetch(url, {
-      'credentials': 'same-origin',
+      // 'credentials': 'same-origin',
       'credentials': 'include',
       'method': 'GET',
       'headers': {
@@ -35,13 +35,11 @@ filter.addEventListener('change', async (e) => {
     tbody.removeChild(tbody.lastChild);
   }
   try {
-    let res = await fetch(url + "?status=" + filter.value, {
-      'credentials': 'same-origin',
+    let res = await fetch(url + '?status=' + filter.value, {
       'credentials': 'include',
       'method': 'GET',
       'headers': {
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Credentials': 'true'
+        'Content-Type': 'application/json'
       }
     })
     let data = await res.json();
@@ -68,7 +66,7 @@ document.addEventListener('click', (e) => {
         let res = await fetch("http://127.0.0.1:8080/handle-reimbursements/" + e.target.value, {
           'credentials': 'same-origin',
           'credentials': 'include',
-          'method': 'GET',
+          'method': 'PUT',
           'headers': {
             'Content-Type': 'application/json',
             'Access-Control-Allow-Credentials': 'true'
@@ -123,9 +121,11 @@ function addReimbursementsToTable(data) {
     let authorCell = document.createElement('td');
     authorCell.innerHTML = reimb.author;
     let imageCell = document.createElement('td');
-    let imageElement = document.createElement('img');
+    let imageElement = document.createElement('a');
     imageCell.appendChild(imageElement);
-    imageElement.setAttribute('src', reimb.receipt);
+    imageElement.setAttribute('href', reimb.receipt);
+    imageElement.setAttribute('target', '_Blank');
+    imageElement.innerText = 'view receipt';
 
     row.appendChild(idCell);
     row.appendChild(amountCell);
