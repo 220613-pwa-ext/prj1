@@ -63,7 +63,7 @@ INSERT INTO ers_users (username, pass, first_name, last_name, email, user_role_i
 	VALUES 	('JohnD80','$2b$12$k9bUr82TcF2uT27PCUs4Z.F/yYB.beSzSiaH4I0OUI0MhloqyGXf2','John','Doe','jd@a.ca',2),
 			('JaneD80','$2b$12$k9bUr82TcF2uT27PCUs4Z.F/yYB.beSzSiaH4I0OUI0MhloqyGXf2','Jane','Doe','jd@a.ca',2),
 			('JonD80','$2b$12$k9bUr82TcF2uT27PCUs4Z.F/yYB.beSzSiaH4I0OUI0MhloqyGXf2','Johny','Doe','jd@a.ca',2),
-			('valiv9','$2b$12$k9bUr82TcF2uT27PCUs4Z.F/yYB.beSzSiaH4I0OUI0MhloqyGXf2','Valentin','Vlad','vv@a.ca',3),
+			('valiv9','$2b$12$k9bUr82TcF2uT27PCUs4Z.F/yYB.beSzSiaH4I0OUI0MhloqyGXf2','Valentin','Vlad','vv@a.ca',1),
 			('willrock22','$2b$12$k9bUr82TcF2uT27PCUs4Z.F/yYB.beSzSiaH4I0OUI0MhloqyGXf2','Cam','Coder','jd@a.ca',1);
 		
 SELECT * FROM ers_users;
@@ -99,6 +99,12 @@ JOIN ers_status_types est ON r.status_id = est.id
 JOIN ers_reimbursement_types ert ON r.type_id = ert.id
 JOIN ers_users eu ON r.author_id = eu.id
 WHERE r.author_id <> 5;
+SELECT r.id, r.amount, r.submitted, est.status_name, ert.reimb_name, r.description, r.receipt, CONCAT(eu.first_name , ' ', eu.last_name) AS employee_name 
+FROM ers_reimbursements r 
+JOIN ers_status_types est ON r.status_id = est.id 
+JOIN ers_reimbursement_types ert ON r.type_id = ert.id
+LEFT JOIN ers_users eu ON r.resolver_id = eu.id
+WHERE r.author_id = 5;
 --SELECT  r.receipt 
 --FROM ers_reimbursements r 
 --JOIN ers_status_types est ON r.status_id = est.id 

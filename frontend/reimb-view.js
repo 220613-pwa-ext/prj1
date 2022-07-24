@@ -51,9 +51,9 @@ header2.addEventListener('click', () => {
   newReimb.removeAttribute('hidden');
 })
 
-submitButton.addEventListener('click', async (e) => {
+submitButton.addEventListener('click', async () => {
 
-  if (!amount.value || !description.value || category.value == 4) {
+  if (!amount.value || !description.value || category.value == 0 || receipt.value == '') {
     error.innerText = "All fields must contain data";
     error.style.color = 'red';
     error.style.fontWeight = 'bold';
@@ -81,6 +81,10 @@ submitButton.addEventListener('click', async (e) => {
       while (tbody.hasChildNodes()) {
         tbody.removeChild(tbody.lastChild);
       }
+      receipt.value = '';
+      description.value = '';
+      amount.value = '';
+      category.value = 0;
       data = await res.json();
       addReimbursementsToTable(data);
       newReimb.setAttribute('hidden', true);
@@ -88,7 +92,8 @@ submitButton.addEventListener('click', async (e) => {
 
         console.log(data);
         success.removeAttribute('hidden');
-        success.innerText = data.message;
+        if (data.message == 'Request resolve status: True')
+          success.innerText = 'The reimbursement request has been added successfully!';
         setTimeout(() => {
           success.setAttribute('hidden', true);
         }, 5000)
@@ -155,8 +160,9 @@ function addReimbursementsToTable(data) {
     r_nameCell.innerHTML = reimb.r_name;
     let descriptionCell = document.createElement('td');
     descriptionCell.innerHTML = reimb.description;
-    let authorCell = document.createElement('td');
-    authorCell.innerHTML = reimb.author;
+    let resolverCell = document.createElement('td');
+    if (reimb.resolver)
+      resolverCell.innerHTML = reimb.resolver;
     let imageCell = document.createElement('td');
     let aElement = document.createElement('a');
     aElement.setAttribute('href', reimb.receipt);
@@ -170,7 +176,7 @@ function addReimbursementsToTable(data) {
     row.appendChild(r_nameCell);
     row.appendChild(descriptionCell);
     row.appendChild(imageCell);
-    row.appendChild(authorCell);
+    row.appendChild(resolverCell);
 
     tbody.appendChild(row);
   }
