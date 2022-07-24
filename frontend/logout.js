@@ -1,5 +1,5 @@
 
-let logoutSuccess = document.getElementById('logout-message');
+let logoutSuccess = document.getElementById('success-messages');
 
 
 document.addEventListener("DOMContentLoaded", async () => {
@@ -11,7 +11,11 @@ document.addEventListener("DOMContentLoaded", async () => {
     },
   })
   if (res.status == 200) {
-    logoutSuccess.innerText = "You have successfully logged out. To access your data please: ";
+    logoutSuccess.innerText += "Thank you for using the Employee Reimbursement Management System!";
+    logoutSuccess.innerHTML += '<br><br><br>';
+    logoutSuccess.innerText += "You have successfully logged out. ";
+    logoutSuccess.innerHTML += '<br><br>';
+    logoutSuccess.innerText += "To access your data again please login!";
 
   }
 });

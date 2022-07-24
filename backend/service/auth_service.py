@@ -1,6 +1,5 @@
 from dao.user_dao import UserDao
 from exception.Unauthorized import Unauthorized
-from exception.Forbidden import Forbidden
 from utility.helpers import validate_password
 
 

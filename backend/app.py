@@ -1,4 +1,4 @@
-from flask import Flask, jsonify
+from flask import Flask
 from datetime import datetime
 from datetime import timedelta
 from datetime import timezone
@@ -11,9 +11,7 @@ from flask_cors import CORS
 from flask_jwt_extended import create_access_token
 from flask_jwt_extended import get_jwt
 from flask_jwt_extended import get_jwt_identity
-from flask_jwt_extended import jwt_required
 from flask_jwt_extended import set_access_cookies
-from flask_jwt_extended import unset_jwt_cookies
 
 config = dotenv_values(".env")
 
@@ -24,20 +22,20 @@ config = dotenv_values(".env")
 
 if __name__ == '__main__':
     app = Flask(__name__)
-
+    app.config['CORS_HEADERS'] = 'Content-Type'
     app.config["JWT_SECRET_KEY"] = config.get('JWT_SECRET_KEY')
     app.config["JWT_COOKIE_SECURE"] = False
     app.config["JWT_TOKEN_LOCATION"] = ["cookies"]
     app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(hours=1)
-    app.config['JWT_COOKIE_CSRF_PROTECT'] = True
+    app.config['JWT_COOKIE_CSRF_PROTECT'] = False
     app.config["JWT_ACCESS_CSRF_HEADER_NAME"] = "X-CSRF-TOKEN-ACCESS"
     app.config["JWT_REFRESH_CSRF_HEADER_NAME"] = "X-CSRF-TOKEN-REFRESH"
     jwt = JWTManager(app)
     app.register_blueprint(rc)
     app.register_blueprint(uc)
     app.register_blueprint(ac)
-    # CORS(app)
-    CORS(app, supports_credentials=True)
+
+    CORS(app, origins=['http://127.0.0.1:5500'], supports_credentials=True)
 
 
     @app.after_request

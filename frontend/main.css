@@ -1,7 +1,14 @@
-#login-status, #header2, #header3,#filter,#instr {
+#login-status, #header2, #header3,#filter,#instr, #submit-btn  {
   color: royalblue;
 }
 
-th,#label-un, #label-password {
+th,#label-un, #label-password, .card-title {
   color: rgb(235, 132, 14);
+}
+
+#success-messages {
+  font-size: large;
+  margin-top: 2%;
+  margin-left: 30%;
+  color: greenyellow;
 }

@@ -41,7 +41,7 @@ CREATE TABLE ers_reimbursements (
 	resolved TIMESTAMP,
 	status_id INT NOT NULL,
 	type_id INT NOT NULL,
-	description VARCHAR(50) NOT NULL,
+	description VARCHAR(500) NOT NULL,
 	receipt BYTEA NOT NULL,
 	author_id INT NOT NULL,
 	resolver_id INT ,
@@ -74,28 +74,34 @@ SELECT * FROM ers_status_types;
 INSERT INTO ers_reimbursement_types (reimb_name) VALUES ('Lodging'), ('Travel'), ('Food'),('Other');
 SELECT * FROM ers_reimbursement_types;
 
-INSERT INTO ers_reimbursements (amount, submitted, status_id, type_id, description, receipt, author_id) 
-	VALUES	(500, Now(), 1, 1, 'Staying at hotel due to extended business meeting', bytea(''), 1),
-			(600, Now(), 1, 2, 'Travel to Vancouver', bytea(''), 1),
-			(700, Now(), 1, 3, 'Eat crackers', bytea(''), 1),
-			(800, Now(), 1, 4, 'Make peace with spouse after late business meeting', bytea(''), 1),
-			(900, Now(), 1, 1, 'Staying at hotel due to extended business meeting', bytea(''), 2),
-			(1000, Now(), 1, 2, 'Travel to Vancouver', bytea(''), 2),
-			(1100, Now(), 1, 3, 'Eat crackers', bytea(''), 2),
-			(1200, Now(), 1, 4, 'Make peace with spouse after late business meeting', bytea(''), 2),
-			(400, Now(), 1, 1, 'Staying at hotel due to extended business meeting', bytea(''), 3),
-			(300, Now(), 1, 2, 'Travel to Vancouver', bytea(''), 3),
-			(200, Now(), 1, 3, 'Eat crackers', bytea(''), 3),
-			(100, Now(), 1, 1, 'Staying at hotel due to extended business meeting', bytea(''), 4),
-			(100, Now(), 1, 1, 'Staying at hotel due to extended business meeting', bytea(''), 4),
-			(500, Now(), 1, 2, 'Travel to Vancouver', bytea(''), 5),
-			(500, Now(), 1, 1, 'Staying at hotel due to extended business meeting', bytea(''), 5),
-			(500, Now(), 1, 3, 'Eat crackers', bytea(''), 5);
+--INSERT INTO ers_reimbursements (amount, submitted, status_id, type_id, description, receipt, author_id) 
+--	VALUES	(500, Now(), 1, 1, 'Staying at hotel due to extended business meeting', (), 1),
+--			(600, Now(), 1, 2, 'Travel to Vancouver', bytea(''), 1),
+--			(700, Now(), 1, 3, 'Eat crackers', bytea(''), 1),
+--			(800, Now(), 1, 4, 'Make peace with spouse after late business meeting', bytea(''), 1),
+--			(900, Now(), 1, 1, 'Staying at hotel due to extended business meeting', bytea(''), 2),
+--			(1000, Now(), 1, 2, 'Travel to Vancouver', bytea(''), 2),
+--			(1100, Now(), 1, 3, 'Eat crackers', bytea(''), 2),
+--			(1200, Now(), 1, 4, 'Make peace with spouse after late business meeting', bytea(''), 2),
+--			(400, Now(), 1, 1, 'Staying at hotel due to extended business meeting', bytea(''), 3),
+--			(300, Now(), 1, 2, 'Travel to Vancouver', bytea(''), 3),
+--			(200, Now(), 1, 3, 'Eat crackers', bytea(''), 3),
+--			(100, Now(), 1, 1, 'Staying at hotel due to extended business meeting', bytea(''), 4),
+--			(100, Now(), 1, 1, 'Staying at hotel due to extended business meeting', bytea(''), 4),
+--			(500, Now(), 1, 2, 'Travel to Vancouver', bytea(''), 5),
+--			(500, Now(), 1, 1, 'Staying at hotel due to extended business meeting', bytea(''), 5),
+--			(500, Now(), 1, 3, 'Eat crackers', bytea(''), 5);
 
 SELECT * FROM ers_reimbursements ;
 SELECT r.id, r.amount, r.submitted, est.status_name, ert.reimb_name, r.description, r.receipt, CONCAT(eu.first_name , ' ', eu.last_name) AS employee_name 
 FROM ers_reimbursements r 
-JOIN ers_status_types est ON r.status_id = est.status_name 
-JOIN ers_reimbursement_types ert ON r.type_id = ert.reimb_name
+JOIN ers_status_types est ON r.status_id = est.id 
+JOIN ers_reimbursement_types ert ON r.type_id = ert.id
 JOIN ers_users eu ON r.author_id = eu.id
 WHERE r.author_id <> 5;
+--SELECT  r.receipt 
+--FROM ers_reimbursements r 
+--JOIN ers_status_types est ON r.status_id = est.id 
+--JOIN ers_reimbursement_types ert ON r.type_id = ert.id
+--JOIN ers_users eu ON r.author_id = eu.id
+--WHERE r.author_id = 5 and r.id = 28;

@@ -3,4 +3,5 @@
 .env
 **/__init__.py
 backend/**/__pycache__
+frontend/receipts/**
 

@@ -14,7 +14,7 @@
       <div class="container-fluid">
         <div id="header1" class="navbar-brand" >ERS</div>
         
-        <a id="header2" class="navbar-brand" href="/new-reimb.html">Add Reimbursement</a>
+        <a id="header2" class="navbar-brand" href="#">Add Reimbursement</a>
         <a id="header3" class="navbar-brand" href="/handle-reimb.html" hidden>Deny or Approve Reimbursements</a>
 
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -23,12 +23,48 @@
         <nav class="navbar bg-light">
           <div class="container-fluid">
             <span id="welcome" class="navbar-brand"></span>
-            <a id="login-status" class="navbar-brand" href="/logout.html"></a>
+            <a id="login-status" class="navbar-brand" href="/logout.html">Logout</a>
           </div>
         </nav>  
         </div>
       </div>
     </nav>
+    <div id="success-messages" hidden></div>
+    <section id="new-reimb" hidden>
+      <div class="card" style="width: 40rem;">
+        <div class="card-body">
+          <h5 class="card-title">New Reimbursement Request</h5><br><br>
+          <p class="card-text">Please add the accurate details including a photo or a scan of your receipt.</p>
+          
+            <form>
+              <div class="mb-3">
+                <label for="amount" class="form-label">Enter Amount</label>
+                <input type="text" class="form-control" id="amount" >
+              </div>
+              <div class="mb-3">
+                <label for="description" class="form-label">Description</label>
+                <input type="text" class="form-control" id="description">
+              </div>
+              <div>
+                <label for="receipt">Upload Receipt:</label>
+                <input type="file" enctype="multipart/form-data" class="form-control" id="receipt" name="receipt"><br><br>
+              </div>
+              <div>
+                <label for="receipt">Select the Category:</label>
+                <select name="status" id="category">
+                  <option class="dropdown-item" value="0">Click here to make a selection</option>
+                  <option class="dropdown-item" value="1">Lodging</option>
+                  <option class="dropdown-item" value="2">Travel</option>
+                  <option class="dropdown-item" value="3">Food</option>
+                  <option class="dropdown-item" value="4">Other</option>
+                </select>
+              </div><br><br>
+              <a id="submit-btn" href="#" class="btn btn-outline-light btn-lg px-5">Submit Reimbursement Request</a>
+              <div id="error-message"></div>
+            </form>
+        </div>
+      </div>   
+    </section>
     <div id="fil" class="container-fluid dropdown-center">
       <p>
         This system view allows you to filter by reimbursement status your requests history.

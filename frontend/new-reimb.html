@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reimbursements</title>
+    <link rel="stylesheet" href="/main.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <script defer type="text/javascript" src="/new-reimb.js"></script>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg bg-light">
+      <div class="container-fluid">
+        <div id="header1" class="navbar-brand">ERS</div>
+        <a id="header3" class="navbar-brand" href="/reimb-view.html" >My Reimbursement Requests</a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <nav class="navbar bg-light">
+          <div class="container-fluid">
+            <span id="welcome" class="navbar-brand"></span>
+            <a id="login-status" class="navbar-brand" href="/logout.html">Logout</a>
+          </div>
+        </nav>  
+        </div>
+      </div>
+    </nav>
+    <section>
+      <div class="card" style="width: 40rem;">
+        <div class="card-body">
+          <h5 class="card-title">New Reimbursement Request</h5><br><br>
+          <p class="card-text">Please add the accurate details including a photo or a scan of your receipt.</p>
+          
+            <form>
+              <div class="mb-3">
+                <label for="amount" class="form-label">Enter Amount</label>
+                <input type="text" class="form-control" id="amount" >
+              </div>
+              <div class="mb-3">
+                <label for="description" class="form-label">Description</label>
+                <input type="text" class="form-control" id="description">
+              </div>
+              <div>
+                <label for="receipt">Upload Receipt:</label>
+                <input type="file" class="form-control" id="receipt" name="receipt"><br><br>
+              </div>
+              <div>
+                <label for="receipt">Select the Category:</label>
+                <select name="status" id="category">
+                  <option class="dropdown-item" value="4">Click here to make a selection</option>
+                  <option class="dropdown-item" value="0">Lodging</option>
+                  <option class="dropdown-item" value="1">Travel</option>
+                  <option class="dropdown-item" value="2">Food</option>
+                  <option class="dropdown-item" value="3">Other</option>
+                </select>
+              </div><br><br>
+              <button id="submit-btn" type="submit" class="btn-lg btn form-control">Submit Reimbursement Request</button>
+              <div id="login-error-message"></div>
+            </form>
+        </div>
+      </div>   
+    </section>
+  </body>
+</html>

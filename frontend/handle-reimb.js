@@ -5,10 +5,11 @@ let tbody = document.getElementById('reimb-tbl-tbody');
 let filter = document.getElementById('filter');
 let url = "http://127.0.0.1:8080/handle-reimbursements"
 
+
 document.addEventListener("DOMContentLoaded", async () => {
   try {
     let res = await fetch(url, {
-      'credentials': 'same-origin',
+      // 'credentials': 'same-origin',
       'credentials': 'include',
       'method': 'GET',
       'headers': {
@@ -17,11 +18,14 @@ document.addEventListener("DOMContentLoaded", async () => {
       }
     })
     let data = await res.json();
-    loginStatusButton.innerText = "Logout"
     welcome.innerText = "Welcome back, " + data.user + "!"
     addReimbursementsToTable(data);
   } catch (err) {
-    console.log(err);
+    if (err.message == "Failed to fetch") {
+      welcome.innerHTML = "Server unreachable: contact IT Admin";
+      welcome.style.color = 'red';
+      welcome.style.fontWeight = 'bold';
+    }
   }
 });
 
@@ -31,23 +35,58 @@ filter.addEventListener('change', async (e) => {
     tbody.removeChild(tbody.lastChild);
   }
   try {
-    let res = await fetch(url + "?status=" + filter.value, {
-      'credentials': 'same-origin',
+    let res = await fetch(url + '?status=' + filter.value, {
       'credentials': 'include',
       'method': 'GET',
       'headers': {
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Credentials': 'true'
+        'Content-Type': 'application/json'
       }
     })
     let data = await res.json();
     addReimbursementsToTable(data);
   } catch (err) {
-    console.log(err);
+    if (err.message == "Failed to fetch") {
+      welcome.innerHTML = "Server unreachable: contact IT Admin";
+      welcome.style.color = 'red';
+      welcome.style.fontWeight = 'bold';
+    }
   }
 
-  // window.location.reload();
 });
+
+document.addEventListener('click', (e) => {
+  e.stopPropagation();
+  e.target.addEventListener('change', async (e) => {
+    if (String(e.target.innerHTML).includes('class="my-class dropdown-item"')) {
+      console.log(e.target.value)
+      while (tbody.hasChildNodes()) {
+        tbody.removeChild(tbody.lastChild);
+      }
+      try {
+        let res = await fetch("http://127.0.0.1:8080/handle-reimbursements/" + e.target.value, {
+          'credentials': 'same-origin',
+          'credentials': 'include',
+          'method': 'PUT',
+          'headers': {
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Credentials': 'true'
+          }
+        })
+        let data = await res.json();
+
+        welcome.innerText = "Welcome back, " + data.user + "!"
+        addReimbursementsToTable(data);
+      } catch (err) {
+        if (err.message == "Failed to fetch") {
+          welcome.innerHTML = "Server unreachable: contact IT Admin";
+          welcome.style.color = 'red';
+          welcome.style.fontWeight = 'bold';
+        }
+      }
+    }
+  })
+})
+
 
 
 function addReimbursementsToTable(data) {
@@ -62,7 +101,19 @@ function addReimbursementsToTable(data) {
     let submittedCell = document.createElement('td');
     submittedCell.innerHTML = reimb.submitted;
     let status_nameCell = document.createElement('td');
-    status_nameCell.innerHTML = reimb.status_name;
+    if (reimb.status_name == "pending") {
+      status_nameCell.innerHTML = '<select name="status-in-row" class="filter-in-row"> <option class="my-class dropdown-item" value=1' +
+        '>Pending</option> <option class="my-class dropdown-item" value="2' + reimb.r_id + '">Approved</option>' +
+        '<option class="my-class dropdown-item" value="3' + reimb.r_id + '">Denied</option> </select>';
+    } else if (reimb.status_name == "denied") {
+      status_nameCell.innerHTML = reimb.status_name;
+      status_nameCell.style.color = 'red';
+    } else if (reimb.status_name == "approved") {
+      status_nameCell.innerHTML = reimb.status_name;
+      status_nameCell.style.color = 'green';
+    }
+
+
     let r_nameCell = document.createElement('td');
     r_nameCell.innerHTML = reimb.r_name;
     let descriptionCell = document.createElement('td');
@@ -70,9 +121,11 @@ function addReimbursementsToTable(data) {
     let authorCell = document.createElement('td');
     authorCell.innerHTML = reimb.author;
     let imageCell = document.createElement('td');
-    let imageElement = document.createElement('img');
+    let imageElement = document.createElement('a');
     imageCell.appendChild(imageElement);
-    imageElement.setAttribute('src', reimb.receipt);
+    imageElement.setAttribute('href', reimb.receipt);
+    imageElement.setAttribute('target', '_Blank');
+    imageElement.innerText = 'view receipt';
 
     row.appendChild(idCell);
     row.appendChild(amountCell);
