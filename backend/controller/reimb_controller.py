@@ -50,6 +50,7 @@ def add_reimbursement():
         amount = request.form.get("amount", None)
         description = request.form.get("description", None)
         receipt = request.files['receipt']
+        print(receipt)
         type_id = request.form.get("type_id", None)
         req_id = get_jwt_identity()
         try:
