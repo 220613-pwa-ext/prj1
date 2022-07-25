@@ -115,3 +115,14 @@ Here is the suggested schema for simplicity. The project MUST utilize and displa
         - Utilize JavaScript to add dynamic behavior (send HTTP requests + render HTTP response data to screen) 
 5. Execute the test cases manually
 6. Write a short report on # of E2E test cases passed/failed
+
+## Install and run
+
+1. Clone the repository or download the zip archive
+2. Create a PostgreSQL database(check the utility package for the SQL) and fill in the .env.example file with that db info and rename the file to .env
+3. Open a Git Bash session in the project's location and build the virtual environment using "python -m venv ./venv" inside the backend directory
+4. Open virtual environment with "source venv/Scripts/activate" and run "pip install -r requirements.txt" to install all project dependencies
+5. To start it either open in your IDE of choice that supports it or "python app.py"
+6. To run the tests use "coverage run --source=service --module pytest --verbose test && coverage report --show-missing
+" in Git Bash session in project directory
+7. Optionally the Postman collection for this api can be imported from the utility package
