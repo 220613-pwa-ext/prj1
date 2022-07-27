@@ -24,7 +24,6 @@ class ReimbDao:
                               "r_name": reimb[4], "description": reimb[5], "receipt": '/receipts/' + str(reimb[0]) + '.jpeg',
                               "author": reimb[7]}
                     my_list_of_reimbursement_dicts.append(r_dict)
-
                 return my_list_of_reimbursement_dicts
 
     def get_reimb_author_id(self, req_id):
@@ -42,11 +41,9 @@ class ReimbDao:
 
                     open('../frontend/receipts/' + str(reimb[0]) + '.jpeg', 'wb').write(reimb[6])
                     r_dict = {"r_id": reimb[0], "amount": reimb[1], "submitted": reimb[2], "status_name": reimb[3],
-                              "r_name": reimb[4], "description": reimb[5], "receipt": '/receipts/' + str(reimb[0]) + '.jpeg',
-                              #"receipt": '/receipts/' + str(reimb[0]) + '.jpeg',
-                              "resolver": reimb[7]}
+                              "r_name": reimb[4], "description": reimb[5], "receipt": '/receipts/' + str(reimb[0]) +
+                              '.jpeg', "resolver": reimb[7]}
                     my_list_of_reimbursement_dicts.append(r_dict)
-
                 return my_list_of_reimbursement_dicts
 
     def get_reimb_author_id_args(self, req_id, args):
