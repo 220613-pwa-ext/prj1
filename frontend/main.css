@@ -1,3 +1,9 @@
+#header {
+  background: url(https://images.unsplash.com/photo-1525784451128-d1488f52f03e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1228&q=80) center center / cover no-repeat ;
+}
+body{
+  background-color: gainsboro;
+}
 #login-status, #header2, #header3,#filter,#instr, #submit-btn  {
   color: royalblue;
 }
@@ -13,13 +19,22 @@ th,#label-un, #label-password, .card-title {
   color: greenyellow;
 }
 
-.intro h1{
-  color: aqua;
+.display-3{
+  color: bisque;
   align-items: center;
   margin-top: 2%;
   margin-inline: 10%;
 }
 
-.intro p {
-  color: yellowgreen
+.lead{
+  color: bisque;
+}
+
+.login-key {
+  height: 100px;
+  font-size: 80px;
+  line-height: 100px;
+  background: -webkit-linear-gradient(#ffb700, #38ef5d);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
