@@ -111,3 +111,4 @@ WHERE r.author_id = 5;
 --JOIN ers_reimbursement_types ert ON r.type_id = ert.id
 --JOIN ers_users eu ON r.author_id = eu.id
 --WHERE r.author_id = 5 and r.id = 28;
+Delete from ers_reimbursements Where id > 22;
