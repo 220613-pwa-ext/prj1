@@ -4,18 +4,18 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Document</title>
+  <title>Home Page</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
   <link rel="stylesheet" href="/main.css">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
 </head>
 <body>
-  <nav class="navbar navbar-expand-lg bg-light">
+  <nav class="navbar navbar-expand-sm bg-grey">
     <div class="container-fluid">
       <a id="header1" class="navbar-brand" href="index.html">ERS</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
-      <nav class="navbar bg-light">
+      <nav class="navbar bg-grey">
         <div class="container-fluid">
           <span class="navbar-brand">To get started: </span>
           <a id="login-status" class="navbar-brand" href="/login.html"> Login</a>
@@ -24,19 +24,45 @@
       </div>
     </div>
   </nav>
-  <main>
-    <div class="intro">
-      <h1>The Employee Reimbursement System</h1><br><br>
-      <p>Your employer created two types of accounts within ERS: employee type and manager type.</p>
-      <p><strong>Employees</strong> can add reimbursement requests by uploading a copy of their receipt in the process.</p>
-      <img src="/static/add-reimbursement.jpg" alt="add reimbursement example"><br><br><br><br>
-      <p><strong>Employees</strong> can view their reimbursement request history and filter that list by the status of the reimbursement request.</p>
-      <img src="/static/view-reimbursement-history.jpg" alt="view reimbursement history">
-      <img src="/static/filter-reimbursement-list.jpg" alt="filter reimbursement history"><br><br><br><br>
-      <p><strong>Managers</strong> have the ability of resolving the status of the reimbursement requests of other employees into either "Approved" or "Denied", along with the benefits of an <strong>Employee</strong></p>
-      <img src="/static/resolve-reimbursement.jpg" alt="resolve reimbursement request">
-      <a href="/login.html" >Begin</a><br>
+  <section id="header" class="jumbotron text-center">
+    <h1 class="display-3">The Empolyee Reimbursement System</h1>
+    <p class="lead">Your employer created two types of accounts within ERS: employee type and manager type.</p>
+</section>
+<section id="gallery">
+  <div class="container">
+    <div class="row">
+    <div class="col-lg-4 mb-4">
+    <div class="card">
+      <img src="/static/add-reimbursement.jpg" alt="" class="card-img-top">
+      <div class="card-body">
+        <h5 class="card-title">Empolyees</h5>
+        <p class="card-text">can add reimbursement requests by uploading a copy of their receipt in the process.</p>
+      </div>
+     </div>
     </div>
-  </main> 
+  <div class="col-lg-4 mb-4">
+  <div class="card">
+      <img src="/static/view-reimbursement-history.jpg" alt="" class="card-img-top">
+      <div class="card-body">
+        <h5 class="card-title">Empolyees</h5>
+        <p class="card-text">can view their reimbursement request history and filter that list by the status of the reimbursement request.</p>
+      </div>
+      </div>
+    </div>
+    <div class="col-lg-4 mb-4">
+    <div class="card">
+      <img src="/static/resolve-reimbursement.jpg" alt="" class="card-img-top">
+      <div class="card-body">
+        <h5 class="card-title">Managers</h5>
+        <p class="card-text">have the ability of resolving the status of the reimbursement requests of other employees into either "Approved" or "Denied", along with the benefits of an empolyee</p>
+      
+      </div>
+     </div>
+    </div>
+  </div>
+</div>
+</section>
+      <a href="/login.html" >Begin</a><br> 
+    </div> 
   </body>
 </html>
