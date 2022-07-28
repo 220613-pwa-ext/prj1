@@ -4,7 +4,7 @@
 body{
   background-color: gainsboro;
 }
-#login-status, #header2, #header3,#filter,#instr, #submit-btn  {
+#login-status, #header2, #header3,#filter,#instr, #submit-btn,#cancel-btn  {
   color: royalblue;
 }
 
@@ -15,7 +15,7 @@ th,#label-un, #label-password, .card-title {
 #success-messages {
   font-size: large;
   margin-top: 2%;
-  margin-left: 30%;
+  margin-left: 10%;
   color: greenyellow;
 }
 
