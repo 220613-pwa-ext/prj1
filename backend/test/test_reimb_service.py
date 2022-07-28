@@ -140,7 +140,7 @@ def test_get_all_reimbursements_for_a_finance_manager(mocker):
         return User(5, 'willrock22', '$2b$12$k9bUr82TcF2uT27PCUs4Z.F/yYB.beSzSiaH4I0OUI0MhloqyGXf2',
                     'Cam', 'Coder', 'jd@a.ca', 1)
 
-    def mock_get_all_reimb_args(self, req_id, args):
+    def mock_get_all_reimb(self, req_id):
         return [{'r_id': 6, 'amount': Decimal('400'), 'submitted': datetime(2022, 7, 24, 10, 58, 35, 454687),
                  'status_name': 'pending', 'r_name': 'Food', 'description': 'Lunch', 'receipt': '/receipts/6.jpeg',
                  'author': 'Valentin Vlad'},
@@ -186,7 +186,7 @@ def test_get_all_reimbursements_for_a_finance_manager(mocker):
                  'receipt': '/receipts/21.jpeg', 'author': 'Valentin Vlad'}]
 
     mocker.patch('dao.user_dao.UserDao.get_user_by_username', mock_get_user_by_username)
-    mocker.patch('dao.reimb_dao.ReimbDao.get_all_reimb_args', mock_get_all_reimb_args)
+    mocker.patch('dao.reimb_dao.ReimbDao.get_all_reimb', mock_get_all_reimb)
     # Act
     actual = reimb_service.get_all_reimbursements(
         {'user_id': 5, 'username': 'willrock22', 'first_name': 'Cam', 'last_name': 'Coder', 'email': 'jd@a.ca',
@@ -434,7 +434,7 @@ def test_get_reimbursements_by_user_id_for_an_employee_with_filter(mocker):
         return User(4, 'valiv9', '$2b$12$k9bUr82TcF2uT27PCUs4Z.F/yYB.beSzSiaH4I0OUI0MhloqyGXf2', 'Valentin',
                     'Vlad', 'vv@a.ca', 1)
 
-    def mock_get_reimb_author_id(self, req_id):
+    def mock_get_reimb_author_id_args(self, req_id, args):
         return [{'r_id': 6, 'amount': Decimal('400'), 'submitted': datetime(2022, 7, 24, 10, 58, 35, 454687),
                  'status_name': 'pending', 'r_name': 'Food', 'description': 'Lunch', 'receipt': '/receipts/6.jpeg',
                  'resolver': ' '},
@@ -446,7 +446,7 @@ def test_get_reimbursements_by_user_id_for_an_employee_with_filter(mocker):
                  'receipt': '/receipts/21.jpeg', 'resolver': ' '}]
 
     mocker.patch('dao.user_dao.UserDao.get_user_by_username', mock_get_user_by_username)
-    mocker.patch('dao.reimb_dao.ReimbDao.get_reimb_author_id', mock_get_reimb_author_id)
+    mocker.patch('dao.reimb_dao.ReimbDao.get_reimb_author_id_args', mock_get_reimb_author_id_args)
     # Act
     actual = reimb_service.get_reimbursements_by_user_id(
         {'user_id': 4, 'username': 'valiv9', 'first_name': 'Valentin', 'last_name': 'Vlad', 'email': 'vv@a.ca',
