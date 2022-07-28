@@ -72,7 +72,7 @@ loginStatusButton.addEventListener('click', async () => {
       setTimeout(() => { success.innerText += "."; }, i)
     }
 
-    setTimeout(() => { window.location.href = '/index.html'; }, 2000)
+    setTimeout(() => { window.location.href = '/index.html'; }, 1600)
 
 
   }
@@ -84,6 +84,9 @@ header2.addEventListener('click', () => {
 
 cancelButton.addEventListener('click', () => {
   newReimb.setAttribute('hidden', true);
+  while (tbody.hasChildNodes()) {
+    tbody.removeChild(tbody.lastChild);
+  }
 })
 
 submitButton.addEventListener('click', async () => {
