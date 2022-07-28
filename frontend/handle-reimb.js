@@ -3,13 +3,13 @@ let welcome = document.getElementById('welcome');
 let loginStatusButton = document.getElementById('login-status');
 let tbody = document.getElementById('reimb-tbl-tbody');
 let filter = document.getElementById('filter');
+let success = document.getElementById('success-messages');
 let url = "http://127.0.0.1:8080/handle-reimbursements"
 
 
-document.addEventListener("DOMContentLoaded", async () => {
+const grabDataAndFeedtoPage = async (data) => {
   try {
     let res = await fetch(url, {
-      // 'credentials': 'same-origin',
       'credentials': 'include',
       'method': 'GET',
       'headers': {
@@ -17,17 +17,57 @@ document.addEventListener("DOMContentLoaded", async () => {
         'Access-Control-Allow-Credentials': 'true'
       }
     })
-    let data = await res.json();
-    welcome.innerText = "Welcome back, " + data.user + "!"
-    addReimbursementsToTable(data);
+    if (res.status == 200) {
+      data = await res.json();
+      if (data.role == 1) {
+        header3.removeAttribute('hidden');
+      }
+      welcome.innerText = "Welcome back, " + data.user + "!"
+      addReimbursementsToTable(data);
+    }
+    if (res.status == 401) {
+      window.location.href = '/index.html';
+    }
   } catch (err) {
     if (err.message == "Failed to fetch") {
-      welcome.innerHTML = "Server unreachable: contact IT Admin";
+      welcome.innerText = "Server unreachable: contact IT Admin";
       welcome.style.color = 'red';
       welcome.style.fontWeight = 'bold';
     }
+    else {
+      console.log(err)
+    }
   }
-});
+};
+
+window.addEventListener('popstate', grabDataAndFeedtoPage);
+
+document.addEventListener("DOMContentLoaded", grabDataAndFeedtoPage);
+
+loginStatusButton.addEventListener('click', async () => {
+  let res = await fetch('http://127.0.0.1:8080/logout', {
+    'credentials': 'include',
+    'method': 'POST',
+    'headers': {
+      'Content-Type': 'application/json'
+    },
+  })
+  if (res.status == 200) {
+    success.removeAttribute('hidden');
+    success.innerText += "Thank you for using the Employee Reimbursement Management System!";
+    success.innerHTML += '<br><br>'
+    success.innerText += "Logging you out ";
+    success.innerHTML += '<br><br>'
+    for (let i = 0; i < 1500; i += 200) {
+      setTimeout(() => { success.innerText += "."; }, i)
+    }
+
+    setTimeout(() => { window.location.href = '/index.html'; }, 2000)
+
+
+  }
+})
+
 
 filter.addEventListener('change', async (e) => {
 
@@ -64,7 +104,6 @@ document.addEventListener('click', (e) => {
       }
       try {
         let res = await fetch("http://127.0.0.1:8080/handle-reimbursements/" + e.target.value, {
-          'credentials': 'same-origin',
           'credentials': 'include',
           'method': 'PUT',
           'headers': {

@@ -72,7 +72,7 @@ loginStatusButton.addEventListener('click', async () => {
       setTimeout(() => { success.innerText += "."; }, i)
     }
 
-    setTimeout(() => { window.location.href = '/index.html'; }, 1600)
+    setTimeout(() => { window.location.href = '/index.html'; }, 2000)
 
 
   }
