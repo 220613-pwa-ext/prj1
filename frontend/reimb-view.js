@@ -105,7 +105,6 @@ submitButton.addEventListener('click', async () => {
     console.log(...formData)
     try {
       let res = await fetch(url, {
-        'credentials': 'same-origin',
         'credentials': 'include',
         'method': 'POST',
         'body': formData
