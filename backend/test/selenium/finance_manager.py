@@ -14,7 +14,7 @@ from pom.reimb_view import ReimbView
 c_options = webdriver.ChromeOptions()
 c_options.add_argument("start-maximized")
 
-driver = webdriver.Chrome('./chromedriver.exe', options=c_options)
+driver = webdriver.Chrome('../../chromedriver.exe', options=c_options)
 driver.implicitly_wait(4)
 driver.get("http://127.0.0.1:5500/")
 
