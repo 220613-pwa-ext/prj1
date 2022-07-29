@@ -8,6 +8,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 import selenium.webdriver.support.expected_conditions as EC
 
 from pom.login import Login
+from pom.reimb_view import ReimbView
 
 c_options = webdriver.ChromeOptions()
 c_options.add_argument("start-maximized")
@@ -17,6 +18,7 @@ driver.implicitly_wait(4)
 driver.get("http://127.0.0.1:5500/")
 
 login = Login(driver)
+reimb = ReimbView(driver)
 action_chain = ActionChains(driver)
 
 time.sleep(1)
@@ -35,20 +37,20 @@ login.get_login_button().click()
 
 # demonstrate filter
 
-filter_element = Select(driver.find_element(By.ID, 'filter'))
+filter_element = Select(reimb.get_filter_select_element())
 time.sleep(1)
 for choice in ("Pending", "Approved", "Denied", "Any Status"):
     filter_element.select_by_visible_text(choice)
     time.sleep(3)
 
 # add reimbursement
-driver.find_element(By.LINK_TEXT, 'Add Reimbursement').click()
+reimb.get_add_reimbursement().click()
 time.sleep(1)
-driver.find_element(By.ID, 'amount').send_keys('50')
+reimb.get_amount_input().send_keys('50')
 time.sleep(2)
-driver.find_element(By.ID, 'description').send_keys('Lunch - Bond with new team member')
+reimb.get_description_input().send_keys('Lunch - Bond with new team member')
 time.sleep(2)
-file = driver.find_element(By.ID, 'receipt')
+file = reimb.get_receipt_input()
 
 
 # use autoit - install -  pip install pyautoit
@@ -59,20 +61,23 @@ autoit.win_wait(handle, 60)
 autoit.control_set_text(handle, "Edit1", "C:\\Users\\Valentin\\Downloads\\receipt2.jpeg")
 autoit.control_click(handle, "Button1")
 time.sleep(4)
-select_add = Select(driver.find_element(By.ID, 'category'))
+select_add = Select(reimb.get_category_input())
 select_add.select_by_visible_text('Food')
 time.sleep(4)
 
-driver.find_element(By.ID, 'submit-btn').click()
+reimb.get_submit_btn().click()
 time.sleep(7)
 
 filter_element.select_by_visible_text("Pending")
 
-driver.find_element(By.XPATH, '//tr[last()]/td/a').click()
+reimb.get_last_receipt_link().click()
 other_tab = driver.window_handles[1]
 driver.switch_to.window(other_tab)
-time.sleep(10)
+time.sleep(5)
 driver.switch_to.window(driver.window_handles[0])
+time.sleep(3)
 
-time.sleep(10)
+reimb.get_logout_btn().click()
+
+time.sleep(4)
 driver.quit()
