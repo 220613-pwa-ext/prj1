@@ -1,3 +1,4 @@
+/backend/.coverage
 /backend/venv
 /backend/.idea
 .env

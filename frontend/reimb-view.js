@@ -6,6 +6,7 @@ let header2 = document.getElementById('header2');
 let newReimb = document.getElementById('new-reimb');
 let tbody = document.getElementById('reimb-tbl-tbody');
 let submitButton = document.getElementById('submit-btn');
+let cancelButton = document.getElementById('cancel-btn');
 let filter = document.getElementById('filter');
 let error = document.getElementById('error-message');
 let success = document.getElementById('success-messages');
@@ -26,13 +27,17 @@ const grabDataAndFeedtoPage = async () => {
         'Access-Control-Allow-Credentials': 'true'
       }
     })
-    data = await res.json();
-    console.log(data);
-    if (data.role == 1) {
-      header3.removeAttribute('hidden');
+    if (res.status == 200) {
+      data = await res.json();
+      if (data.role == 1) {
+        header3.removeAttribute('hidden');
+      }
+      welcome.innerText = "Welcome back, " + data.user + "!"
+      addReimbursementsToTable(data);
     }
-    welcome.innerText = "Welcome back, " + data.user + "!"
-    addReimbursementsToTable(data);
+    if (res.status == 401) {
+      window.location.href = '/index.html';
+    }
   } catch (err) {
     if (err.message == "Failed to fetch") {
       welcome.innerText = "Server unreachable: contact IT Admin";
@@ -45,26 +50,54 @@ const grabDataAndFeedtoPage = async () => {
   }
 };
 
+window.addEventListener('popstate', grabDataAndFeedtoPage);
+
 document.addEventListener("DOMContentLoaded", grabDataAndFeedtoPage);
+
+loginStatusButton.addEventListener('click', async () => {
+  let res = await fetch('http://127.0.0.1:8080/logout', {
+    'credentials': 'include',
+    'method': 'POST',
+    'headers': {
+      'Content-Type': 'application/json'
+    },
+  })
+  if (res.status == 200) {
+    success.removeAttribute('hidden');
+    success.innerText += "Thank you for using the Employee Reimbursement Management System!";
+    success.innerHTML += '<br><br>'
+    success.innerText += "Logging you out ";
+    success.innerHTML += '<br><br>'
+    for (let i = 0; i < 1500; i += 200) {
+      setTimeout(() => { success.innerText += "."; }, i)
+    }
+
+    setTimeout(() => { window.location.href = '/index.html'; }, 2000)
+
+
+  }
+})
 
 header2.addEventListener('click', () => {
   newReimb.removeAttribute('hidden');
 })
 
+cancelButton.addEventListener('click', () => {
+  newReimb.setAttribute('hidden', true);
+  while (tbody.hasChildNodes()) {
+    tbody.removeChild(tbody.lastChild);
+  }
+})
+
 submitButton.addEventListener('click', async () => {
 
   if (!amount.value || !description.value || category.value == 0 || receipt.value == '') {
-    error.innerText = "All fields must contain data";
+    error.innerText = "All fields are mandatory to submit a new request for reimbursement!";
     error.style.color = 'red';
     error.style.fontWeight = 'bold';
   } else {
     error.innerText = '';
     const formData = new FormData();
-    const image = new Blob([JSON.stringify({
-      receipt: receipt.value,
-    })], {
-      type: 'image/jpeg'
-    });
     formData.append("receipt", receipt.files[0])
     formData.append("description", description.value)
     formData.append("amount", amount.value)
@@ -72,7 +105,6 @@ submitButton.addEventListener('click', async () => {
     console.log(...formData)
     try {
       let res = await fetch(url, {
-        'credentials': 'same-origin',
         'credentials': 'include',
         'method': 'POST',
         'body': formData
@@ -166,6 +198,7 @@ function addReimbursementsToTable(data) {
     let imageCell = document.createElement('td');
     let aElement = document.createElement('a');
     aElement.setAttribute('href', reimb.receipt);
+    aElement.setAttribute('target', "_Blank");
     aElement.innerText = 'view receipt'
     imageCell.appendChild(aElement);
 
