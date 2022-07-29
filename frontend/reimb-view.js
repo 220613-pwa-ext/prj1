@@ -84,6 +84,10 @@ header2.addEventListener('click', () => {
 
 cancelButton.addEventListener('click', () => {
   newReimb.setAttribute('hidden', true);
+  receipt.value = '';
+  description.value = '';
+  amount.value = '';
+  category.value = 0;
   while (tbody.hasChildNodes()) {
     tbody.removeChild(tbody.lastChild);
   }
