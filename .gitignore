@@ -5,4 +5,5 @@
 **/__init__.py
 backend/**/__pycache__
 frontend/receipts/**
+/backend/chromedriver.exe
 
