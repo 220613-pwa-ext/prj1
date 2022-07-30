@@ -7,25 +7,27 @@ from selenium.webdriver.support.select import Select
 from selenium.webdriver.support.ui import WebDriverWait
 import selenium.webdriver.support.expected_conditions as EC
 
+from pom.handle_reimb import HandleReimb
 from pom.login import Login
 from pom.reimb_view import ReimbView
 
 c_options = webdriver.ChromeOptions()
 c_options.add_argument("start-maximized")
 
-driver = webdriver.Chrome('./chromedriver.exe', options=c_options)
+driver = webdriver.Chrome('../../chromedriver.exe', options=c_options)
 driver.implicitly_wait(4)
 driver.get("http://127.0.0.1:5500/")
 
 login = Login(driver)
 reimb = ReimbView(driver)
+handle_reimb = HandleReimb(driver)
 action_chain = ActionChains(driver)
 
 time.sleep(1)
 driver.find_element(By.LINK_TEXT, 'Login').click()
 
 # Successful Login
-login.get_username_input().send_keys("JohnD80")
+login.get_username_input().send_keys("valiv9")
 time.sleep(1)
 login.get_password_input().send_keys("password")
 time.sleep(1)
@@ -76,6 +78,35 @@ driver.switch_to.window(other_tab)
 time.sleep(5)
 driver.switch_to.window(driver.window_handles[0])
 time.sleep(3)
+
+reimb.get_handle_reimbursement_btn().click()
+
+# demonstrate filter
+
+filter_element = Select(handle_reimb.get_filter_select_element())
+time.sleep(1)
+# for choice in ("Pending", "Approved", "Denied", "Any Status"):
+#     filter_element.select_by_visible_text(choice)
+#     time.sleep(3)
+
+filter_element.select_by_visible_text("Pending")
+time.sleep(3)
+handle_first_pending_request = Select(handle_reimb.find_first_pending_request_on_pending_filtered_list())
+
+handle_reimb.find_first_pending_request_on_pending_filtered_list().click()
+handle_first_pending_request.select_by_visible_text('Approved')
+time.sleep(5)
+filter_element.select_by_visible_text("Approved")
+time.sleep(3)
+filter_element.select_by_visible_text("Pending")
+time.sleep(3)
+handle_reimb.find_first_pending_request_on_pending_filtered_list().click()
+handle_first_pending_request = Select(handle_reimb.find_first_pending_request_on_pending_filtered_list())
+handle_first_pending_request.select_by_visible_text('Denied')
+time.sleep(3)
+
+filter_element.select_by_visible_text("Denied")
+time.sleep(5)
 
 reimb.get_logout_btn().click()
 

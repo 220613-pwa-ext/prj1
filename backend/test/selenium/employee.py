@@ -13,7 +13,7 @@ from pom.reimb_view import ReimbView
 c_options = webdriver.ChromeOptions()
 c_options.add_argument("start-maximized")
 
-driver = webdriver.Chrome('./chromedriver.exe', options=c_options)
+driver = webdriver.Chrome('../../chromedriver.exe', options=c_options)
 driver.implicitly_wait(4)
 driver.get("http://127.0.0.1:5500/")
 
@@ -24,47 +24,29 @@ action_chain = ActionChains(driver)
 time.sleep(1)
 driver.find_element(By.LINK_TEXT, 'Login').click()
 
-# unsuccessful login attempt
+# Successful Login
 login.get_username_input().send_keys("JohnD80")
-time.sleep(2)
-login.get_password_input().send_keys("passwor")
-time.sleep(2)
-
-# attempt navigate to view reimbursement page
-login.get_login_button().click()
-
-# unsuccessful login attempt
-login.get_username_input().send_keys("JohnD8")
-time.sleep(2)
+time.sleep(1)
 login.get_password_input().send_keys("password")
-time.sleep(2)
+time.sleep(1)
 
-# attempt navigate to view reimbursement page
+# navigate to view reimbursement page
 login.get_login_button().click()
 
-
-# unsuccessful login attempt
-login.get_username_input().send_keys("JohnD8")
-time.sleep(2)
-login.get_password_input().send_keys("passwor")
-time.sleep(2)
-
-# attempt navigate to view reimbursement page
-login.get_login_button().click()
 # wait for page to load
 
-
-login.get_username_input().send_keys("JohnD80")
-time.sleep(2)
-login.get_password_input().send_keys("password")
-time.sleep(2)
-login.get_login_button().click()
 # demonstrate filter
+
+filter_element = Select(reimb.get_filter_select_element())
+time.sleep(1)
+for choice in ("Pending", "Approved", "Denied", "Any Status"):
+    filter_element.select_by_visible_text(choice)
+    time.sleep(3)
 
 # add reimbursement
 reimb.get_add_reimbursement().click()
 time.sleep(1)
-#reimb.get_amount_input().send_keys('50')
+reimb.get_amount_input().send_keys('50')
 time.sleep(2)
 reimb.get_description_input().send_keys('Lunch - Bond with new team member')
 time.sleep(2)
@@ -85,12 +67,17 @@ time.sleep(4)
 
 reimb.get_submit_btn().click()
 time.sleep(7)
-driver.find_element(By.ID, 'cancel-btn').click()
 
+filter_element.select_by_visible_text("Pending")
 
+reimb.get_last_receipt_link().click()
+other_tab = driver.window_handles[1]
+driver.switch_to.window(other_tab)
+time.sleep(5)
+driver.switch_to.window(driver.window_handles[0])
+time.sleep(3)
 
-
-
+reimb.get_logout_btn().click()
 
 time.sleep(4)
 driver.quit()
