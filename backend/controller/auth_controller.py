@@ -1,4 +1,4 @@
-from flask import Blueprint, request, jsonify, make_response
+from flask import Blueprint, request, jsonify
 from exception.Unauthorized import Unauthorized
 from service.auth_service import AuthService
 from flask_jwt_extended import create_access_token, set_access_cookies, unset_jwt_cookies
